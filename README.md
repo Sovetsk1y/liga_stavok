@@ -1,0 +1,3 @@
+# liga
+
+Liga stavok hackaton

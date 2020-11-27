@@ -1,0 +1,46 @@
+name: liga
+description: Liga stavok hackaton
+
+publish_to: 'none'
+
+version: 0.0.1+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.0
+
+  #architecture
+  bloc: ^6.1.0
+  flutter_bloc: ^6.1.1
+
+  #networking
+  dio: ^3.0.10
+  retrofit: ^1.3.4
+
+  #logging
+  logger: ^0.9.4
+
+  #json
+  json_annotation: ^3.1.0
+
+  #objects equality
+  equatable: ^1.2.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  retrofit_generator: ^1.4.0
+  build_runner: ^1.10.5
+  json_serializable: ^3.5.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/config.json
