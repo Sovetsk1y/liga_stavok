@@ -75,9 +75,14 @@ class SportEventStatus {
   @JsonKey(name: 'away_score')
   final int awayScore;
 
-  SportEventStatus(this.status, this.homeScore, this.awayScore);
+  @JsonKey(name: 'winner_id')
+  final String winnerId;
+
+  SportEventStatus(this.status, this.homeScore, this.awayScore, this.winnerId);
 
   factory SportEventStatus.fromJson(Map<String, dynamic> json) => _$SportEventStatusFromJson(json);
 
   Map<String, dynamic> toJson() => _$SportEventStatusToJson(this);
 }
+
+enum MatchResult { win, lose, draw }

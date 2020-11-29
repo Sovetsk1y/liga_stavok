@@ -25,11 +25,33 @@ class TeamRepository {
     _instance = this;
   }
 
+  Future<List<MatchResult>> getLastMatchesResults(String competitorId) async {
+    String apiKey = await _config.getApiKey();
+    TeamResults teamResults = await _networkClient.getTeamResults(competitorId, apiKey);
+    List<Result> lastFiveFinishedMatches = _getQuantityLastFinishedMatches(teamResults.results, _QUANTITY_LAST_MATCHES);
+    return _mapResponseToMatchesResults(lastFiveFinishedMatches, _COMPETITOR_ID_PREFIX + competitorId);
+  }
+
   Future<int> getIndividualTotalForLastMatches(String competitorId) async {
     String apiKey = await _config.getApiKey();
     TeamResults teamResults = await _networkClient.getTeamResults(competitorId, apiKey);
     List<Result> lastFiveFinishedMatches = _getQuantityLastFinishedMatches(teamResults.results, _QUANTITY_LAST_MATCHES);
     return _getIndividualTotalFor(lastFiveFinishedMatches, _COMPETITOR_ID_PREFIX + competitorId);
+  }
+
+  List<MatchResult> _mapResponseToMatchesResults(List<Result> results, String competitorId) {
+    List<MatchResult> matchesResults = List<MatchResult>();
+    for (final result in results) {
+      String winnerId = result.sportEventStatus.winnerId;
+      if (winnerId == null || winnerId.isEmpty) {
+        matchesResults.add(MatchResult.draw);
+      } else if (winnerId == competitorId) {
+        matchesResults.add(MatchResult.win);
+      } else {
+        matchesResults.add(MatchResult.lose);
+      }
+    }
+    return matchesResults;
   }
 
   List<Result> _getQuantityLastFinishedMatches(List<Result> results, int quantity) {
