@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class Config {
   static const String _CONFIG_PATH = 'assets/config.json';
-  static const String _CONFIG_API_KEY = 'coinmarket_api_key';
+  static const String _CONFIG_API_KEY = 'sport_radar_api_key';
 
   static final Config _instance = Config._internal();
 

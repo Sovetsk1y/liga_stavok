@@ -10,6 +10,10 @@ class Log {
   Log._internal();
 
   void d(dynamic message, [dynamic error, StackTrace stackTrace]) {
-    _logger.log(message, error, stackTrace);
+    _logger.d(message, error, stackTrace);
+  }
+
+  void e(dynamic message, [dynamic error, StackTrace stackTrace]) {
+    _logger.e(message, error, stackTrace);
   }
 }
