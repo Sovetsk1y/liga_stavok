@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liga/data/repository/team_repository.dart';
@@ -31,7 +32,44 @@ class FootballMatchDetailedPage extends StatefulWidget {
 }
 
 class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
+  ScrollController _scrollController = ScrollController();
   int _currentPage = 0;
+  ExpandableController _matchCommentaryController = ExpandableController();
+  ExpandableController _matchStatisticsController = ExpandableController();
+
+  void _initListeners() {
+    _scrollController.addListener(() {
+      if (_scrollController.offset >
+          _scrollController.position.maxScrollExtent / 2) if (_currentPage != 1)
+        setState(() {
+          _currentPage = 1;
+        });
+      if (_scrollController.offset <
+          _scrollController.position.maxScrollExtent / 2) if (_currentPage != 0)
+        setState(() {
+          _currentPage = 0;
+        });
+    });
+
+    _matchCommentaryController.addListener(() {
+      if (_matchCommentaryController.expanded &&
+          _matchStatisticsController.expanded)
+        _matchStatisticsController.toggle();
+    });
+
+    _matchStatisticsController.addListener(() {
+      if (_matchStatisticsController.expanded &&
+          _matchCommentaryController.expanded)
+        _matchCommentaryController.toggle();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _initListeners();
+  }
 
   @override
   Widget build(BuildContext context) => BlocProvider(
@@ -73,73 +111,84 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
   Widget _buildBody() {
     return SafeArea(
       top: true,
-      child: Container(
-        child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              Container(
-                color: AppColors.grey,
-                padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: ListView(
+        physics: ClampingScrollPhysics(),
+        children: [
+          Container(
+            color: AppColors.grey,
+            padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildLiveTag(),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    _buildLiveTag(),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildPageViewIndicatorDot(
-                            isActive: _currentPage ==
-                                _Constants.PAGE_VIEW_STATISTICS),
-                        SizedBox(width: 6),
-                        _buildPageViewIndicatorDot(
-                            isActive: _currentPage == _Constants.PAGE_VIEW_NEWS)
-                      ],
-                    ),
-                    _buildExitButton()
+                    _buildPageViewIndicatorDot(
+                        isActive:
+                            _currentPage == _Constants.PAGE_VIEW_STATISTICS),
+                    SizedBox(width: 6),
+                    _buildPageViewIndicatorDot(
+                        isActive: _currentPage == _Constants.PAGE_VIEW_NEWS)
                   ],
                 ),
-              ),
-              Container(
-                color: AppColors.grey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          bottom: 16, top: 8, left: 16, right: 16),
-                      child: MatchCommentaryWidget(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: AspectRatio(
-                        aspectRatio: 3 / 2,
-                        child: PageView(
-                            pageSnapping: true,
-                            onPageChanged: (page) {
-                              setState(() {
-                                _currentPage = page;
-                              });
-                            },
-                            children: [
-                              MatchStatisticsWidget(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                              ),
-                              MatchNewsWidget(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                              )
-                            ]),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 500,
-                color: Colors.white,
-              )
-            ],
+                _buildExitButton()
+              ],
+            ),
           ),
-        ),
+          Container(
+            color: AppColors.grey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(bottom: 16, top: 8, left: 16, right: 16),
+                  child: MatchCommentaryWidget(
+                    controller: _matchCommentaryController,
+                  ),
+                ),
+                SingleChildScrollView(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  physics: PageScrollPhysics(parent: ClampingScrollPhysics()),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: MatchStatisticsWidget(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            controller: _matchStatisticsController,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: MatchNewsWidget(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            height: 300,
+            color: Colors.white,
+            child: Center(
+              child: Text('Куча различных котировок',
+                  style: Theme.of(context).textTheme.headline2),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -13,6 +13,10 @@ class _Constants {
 }
 
 class MatchCommentaryWidget extends StatefulWidget {
+  final ExpandableController controller;
+
+  MatchCommentaryWidget({this.controller});
+
   @override
   _MatchCommentaryTileState createState() => _MatchCommentaryTileState();
 }
@@ -20,6 +24,7 @@ class MatchCommentaryWidget extends StatefulWidget {
 class _MatchCommentaryTileState extends State<MatchCommentaryWidget> {
   @override
   Widget build(BuildContext context) => ExpandableNotifier(
+        controller: widget.controller,
         child: Container(
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(

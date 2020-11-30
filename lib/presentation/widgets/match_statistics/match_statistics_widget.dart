@@ -7,8 +7,10 @@ import 'package:liga/utils/constants.dart';
 
 class MatchStatisticsWidget extends StatefulWidget {
   final EdgeInsetsGeometry padding;
+  final ExpandableController controller;
 
-  MatchStatisticsWidget({Key key, this.padding}) : super(key: key);
+  MatchStatisticsWidget({Key key, this.padding, this.controller})
+      : super(key: key);
 
   @override
   _MatchStatisticsWidgetState createState() => _MatchStatisticsWidgetState();
@@ -17,6 +19,7 @@ class MatchStatisticsWidget extends StatefulWidget {
 class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
   @override
   Widget build(BuildContext context) => ExpandableNotifier(
+        controller: widget.controller,
         child: Container(
           margin: widget.padding,
           padding: EdgeInsets.only(top: 16, left: 16, right: 16),
