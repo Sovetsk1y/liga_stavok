@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:liga/data/model/live_event.dart';
 
 abstract class SportWidgetState extends Equatable {
   const SportWidgetState();
@@ -18,15 +19,21 @@ class Loading extends SportWidgetState {
 }
 
 class Success extends SportWidgetState {
-  /*final List<CryptoCurrency> cryptoCurrencies;
-
-  Success(this.cryptoCurrencies);
-
-  @override
-  List<Object> get props => [cryptoCurrencies];*/
-
   @override
   String toString() => 'Success sport widget state';
+}
+
+class SuccessUpdateLiveData extends SportWidgetState {
+  final LiveEvent event;
+  final List<LiveEvent> events;
+
+  SuccessUpdateLiveData(this.event, this.events);
+
+  @override
+  String toString() => 'Success update live data state';
+
+  @override
+  List<Object> get props => [event, events];
 }
 
 class Failure extends SportWidgetState {
