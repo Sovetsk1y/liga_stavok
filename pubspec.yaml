@@ -31,6 +31,12 @@ dependencies:
   #objects equality
   equatable: ^1.2.5
 
+  #assets thingies
+  flutter_svg: ^0.18.0
+
+  #ui
+  expandable: ^4.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -44,3 +50,5 @@ flutter:
 
   assets:
     - assets/config.json
+    - assets/icons/
+    - assets/images/
