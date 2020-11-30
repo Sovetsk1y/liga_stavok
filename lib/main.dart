@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liga/config.dart';
-import 'package:liga/data/repository/team_repository.dart';
+import 'package:liga/data/repository/live_data_repository.dart';
+import 'package:liga/data/repository/static_data_repository.dart';
 import 'package:liga/feature/widget/sport_widget_bloc.dart';
 import 'package:liga/feature/widget/sport_widget_event.dart';
 import 'package:liga/feature/widget/sport_widget_state.dart';
@@ -87,7 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: BlocProvider(
-        create: (context) => SportWidgetBloc(TeamRepository(_createNetworkClient(), Config()), Log())..add(LoadIndividualTotal()),
+        create: (context) => SportWidgetBloc(
+            StaticDataRepository(_createNetworkClient(), _createConfig()), LiveDataRepository(_createNetworkClient(), _createConfig()), _createLog())
+          ..add(LoadIndividualTotal()),
         child: BlocBuilder<SportWidgetBloc, SportWidgetState>(builder: (context, state) {
           return Center(
             // Center is a layout widget. It takes a single child and positions it
@@ -133,4 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final dio = Dio();
     return NetworkClient(dio);
   }
+
+  Log _createLog() => Log();
+
+  Config _createConfig() => Config();
 }
