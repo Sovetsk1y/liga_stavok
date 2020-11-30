@@ -35,4 +35,24 @@ class _NetworkClient implements NetworkClient {
     final value = TeamResults.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<MatchFunFactsResponse> getFunFacts(matchId, apiKey) async {
+    ArgumentError.checkNotNull(matchId, 'matchId');
+    ArgumentError.checkNotNull(apiKey, 'apiKey');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'api_key': apiKey};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/soccer-t3/intl/en/matches/$matchId/funfacts.json',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = MatchFunFactsResponse.fromJson(_result.data);
+    return value;
+  }
 }

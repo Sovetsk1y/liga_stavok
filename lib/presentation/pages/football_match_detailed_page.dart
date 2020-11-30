@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:liga/data/repository/team_repository.dart';
+import 'package:liga/data/repository/live_data_repository.dart';
+import 'package:liga/data/repository/static_data_repository.dart';
 import 'package:liga/feature/widget/sport_widget_bloc.dart';
 import 'package:liga/feature/widget/sport_widget_event.dart';
 import 'package:liga/feature/widget/sport_widget_state.dart';
@@ -37,33 +38,6 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
   ExpandableController _matchCommentaryController = ExpandableController();
   ExpandableController _matchStatisticsController = ExpandableController();
 
-  void _initListeners() {
-    _scrollController.addListener(() {
-      if (_scrollController.offset >
-          _scrollController.position.maxScrollExtent / 2) if (_currentPage != 1)
-        setState(() {
-          _currentPage = 1;
-        });
-      if (_scrollController.offset <
-          _scrollController.position.maxScrollExtent / 2) if (_currentPage != 0)
-        setState(() {
-          _currentPage = 0;
-        });
-    });
-
-    _matchCommentaryController.addListener(() {
-      if (_matchCommentaryController.expanded &&
-          _matchStatisticsController.expanded)
-        _matchStatisticsController.toggle();
-    });
-
-    _matchStatisticsController.addListener(() {
-      if (_matchStatisticsController.expanded &&
-          _matchCommentaryController.expanded)
-        _matchCommentaryController.toggle();
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -74,7 +48,9 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
   @override
   Widget build(BuildContext context) => BlocProvider(
       create: (context) => SportWidgetBloc(
-          TeamRepository(_createNetworkClient(), Config()), Log())
+          StaticDataRepository(_createNetworkClient(), _createConfig()),
+          LiveDataRepository(_createNetworkClient(), _createConfig()),
+          _createLog())
         ..add(LoadIndividualTotal()),
       child: BlocBuilder<SportWidgetBloc, SportWidgetState>(
           builder: (context, state) {
@@ -203,8 +179,43 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
     );
   }
 
+  void _initListeners() {
+    _scrollController.addListener(() {
+      if (_scrollController.offset >
+          _scrollController.position.maxScrollExtent /
+              2) if (_currentPage != 1) {
+        if (_matchStatisticsController.expanded)
+          _matchStatisticsController.toggle();
+        setState(() {
+          _currentPage = 1;
+        });
+      }
+      if (_scrollController.offset <
+          _scrollController.position.maxScrollExtent / 2) if (_currentPage != 0)
+        setState(() {
+          _currentPage = 0;
+        });
+    });
+
+    _matchCommentaryController.addListener(() {
+      if (_matchCommentaryController.expanded &&
+          _matchStatisticsController.expanded)
+        _matchStatisticsController.toggle();
+    });
+
+    _matchStatisticsController.addListener(() {
+      if (_matchStatisticsController.expanded &&
+          _matchCommentaryController.expanded)
+        _matchCommentaryController.toggle();
+    });
+  }
+
   NetworkClient _createNetworkClient() {
     final dio = Dio();
     return NetworkClient(dio);
   }
+
+  Config _createConfig() => Config();
+
+  Log _createLog() => Log();
 }
