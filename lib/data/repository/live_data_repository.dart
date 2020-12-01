@@ -1,17 +1,21 @@
-import 'dart:math';
+import 'dart:convert';
 
-import 'package:liga/data/model/live_event.dart';
+import 'package:flutter/services.dart';
+import 'package:liga/data/model/live_event_ui_model.dart';
+// ignore: unused_import
+import 'package:liga/data/model/live_results.dart';
+import 'package:liga/data/model/live_widget_ui_model.dart';
+import 'package:liga/data/model/match_timeline.dart';
 import 'package:liga/net/network_client.dart';
 
 import '../../config.dart';
 
 class LiveDataRepository {
+  // ignore: unused_field
   final NetworkClient _networkClient;
-  final Config _config;
 
-  final Random _random = Random();
-  final List<LiveEvent> _predefinedLiveEvents = List<LiveEvent>();
-  final List<LiveEvent> _liveEvents = List<LiveEvent>();
+  // ignore: unused_field
+  final Config _config;
 
   static LiveDataRepository _instance;
 
@@ -21,23 +25,35 @@ class LiveDataRepository {
 
   LiveDataRepository._internal(this._networkClient, this._config) {
     _instance = this;
-    _fillPredefinedLiveEvents();
   }
 
-  Future<LiveEvent> getLiveEvent() async {
-    int randomNumber = _random.nextInt(_predefinedLiveEvents.length);
-    LiveEvent event = _predefinedLiveEvents[randomNumber];
-    _liveEvents.add(event);
-    return event;
+  Future<LiveWidgetUiModel> getLiveData() async {
+    // uncomment this block when want going to use backend
+    /*String apiKey = await _config.getApiKey();
+    LiveResultsResponse response = await _networkClient.getLiveResults(apiKey);
+    String matchId = response.results.first.sportEvent.id;
+    MatchTimelineResponse timelineResponse = await _networkClient.getMatchTimeLine(matchId, apiKey);*/
+    MatchTimelineResponse timelineResponse = await _getMatchTimeLineResponseFromAssets();
+    List<LiveEventUiModel> liveEventModels = _mapToLiveEventUiModels(timelineResponse.timeline);
+    return LiveWidgetUiModel(liveEventModels);
   }
 
-  Future<List<LiveEvent>> getLiveEvents() async => _liveEvents;
+  List<LiveEventUiModel> _mapToLiveEventUiModels(List<TimelineItem> timelineItems) {
+    List<LiveEventUiModel> eventUiModels = List<LiveEventUiModel>();
+    if (timelineItems != null && timelineItems.isNotEmpty) {
+      List<TimelineItem> reversedItems = List.from(timelineItems.reversed);
+      reversedItems.forEach((timelineItem) {
+        final model = LiveEventUiModel(timelineItem.id, timelineItem.getLiveEventType(), timelineItem.matchTime.toString(),
+            goalScorer: timelineItem.goalScorer, player: timelineItem.player);
+        eventUiModels.add(model);
+      });
+    }
+    return eventUiModels;
+  }
 
-  void _fillPredefinedLiveEvents() {
-    _predefinedLiveEvents.add(LiveEvent('Карим Бензема', LiveEventType.goal));
-    _predefinedLiveEvents.add(LiveEvent('Степан Пупкин', LiveEventType.goal));
-    _predefinedLiveEvents.add(LiveEvent('Тарас Степаненко', LiveEventType.yellowCard));
-    _predefinedLiveEvents.add(LiveEvent('Тайсон Батькович', LiveEventType.redCard));
-    _predefinedLiveEvents.add(LiveEvent('Тарас Бульба - Иван Маркович', LiveEventType.change));
+  Future<MatchTimelineResponse> _getMatchTimeLineResponseFromAssets() async {
+    final String content = await rootBundle.loadString('assets/MatchTimelineResponse.json');
+    final json = jsonDecode(content);
+    return MatchTimelineResponse.fromJson(json);
   }
 }
