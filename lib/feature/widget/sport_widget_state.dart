@@ -15,11 +15,6 @@ class Initial extends SportWidgetState {
   String toString() => 'Initial sport widget state';
 }
 
-class Loading extends SportWidgetState {
-  @override
-  String toString() => 'Loading sport widget state';
-}
-
 class Success extends SportWidgetState {
   @override
   String toString() => 'Success sport widget state';
@@ -54,6 +49,11 @@ class SuccessUpdateTeamMatchStatistics extends SportWidgetState {
 
   @override
   List<Object> get props => [teamType, results];
+}
+
+class NetworkNotAvailable extends SportWidgetState {
+  @override
+  String toString() => 'Network not available state';
 }
 
 class Failure extends SportWidgetState {

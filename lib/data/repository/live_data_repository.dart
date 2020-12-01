@@ -48,12 +48,19 @@ class LiveDataRepository {
     // uncomment this block and remove response json when going to use backend
     /*String apiKey = await _config.getApiKey();
     MatchTimelineResponse timelineResponse = await _networkClient.getMatchTimeLine(matchId, apiKey);*/
-    MatchTimelineResponse timelineResponse = await _getMatchTimeLineResponseFromAssets();
-    List<TimelineItem> timelineItems = _getTimelineItems(timelineResponse.timeline);
-    return _mapToUiModel(timelineResponse, timelineItems);
+    return _getMatchTimeLineResponseFromAssets().then((timelineResponse) {
+      List<TimelineItem> timelineItems = _getTimelineItems(timelineResponse.timeline);
+      return _mapToUiModel(timelineResponse, timelineItems);
+    }).catchError((error) {
+      List<Exception> exceptions = List();
+      exceptions.add(error);
+      return Future.value(LiveWidgetUiModel()..exceptions = exceptions);
+    });
   }
 
   Future<MatchTimelineResponse> _getMatchTimeLineResponseFromAssets() async {
+    // uncomment this to simulate network error
+    /*throw NetworkNotAvailableException();*/
     if (_timelineResponse == null) {
       final String jsonPath = showLiveData ? 'assets/MatchTimelineResponseLive.json' : 'assets/MatchTimelineResponseClosed.json';
       final String content = await rootBundle.loadString(jsonPath);
@@ -215,6 +222,10 @@ class LiveDataRepository {
       });
     }
 
-    return LiveWidgetUiModel(_timelineResponse.sportEventStatus.isLive(), eventUiModels, homeTeamUiModel, awayTeamUiModel);
+    return LiveWidgetUiModel()
+      ..live = _timelineResponse.sportEventStatus.isLive()
+      ..liveEventUiModels = eventUiModels
+      ..homeTeamUiModel = homeTeamUiModel
+      ..awayTeamUiModel = awayTeamUiModel;
   }
 }

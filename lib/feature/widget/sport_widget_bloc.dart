@@ -9,6 +9,7 @@ import 'package:liga/data/repository/live_data_repository.dart';
 import 'package:liga/data/repository/static_data_repository.dart';
 import 'package:liga/feature/widget/sport_widget_event.dart';
 import 'package:liga/feature/widget/sport_widget_state.dart';
+import 'package:liga/net/exceptions.dart';
 import 'package:liga/utils/log.dart';
 
 class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
@@ -30,8 +31,6 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
   Stream<SportWidgetState> mapEventToState(SportWidgetEvent event) async* {
     _log.d('Receive sport widget event - $event');
     if (event is LoadIndividualTotal) {
-      yield Loading();
-
       try {
         int individualTotal = await _staticDataRepository.getIndividualTotalForLastMatches('sr:competitor:23992');
         _log.d('load individual total $individualTotal');
@@ -41,29 +40,39 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
         yield SuccessLoadFunFacts(funFacts);
       } catch (exception) {
         _log.e('Can\'t load data', exception);
+        yield Failure();
       }
     } else if (event is UpdateLiveData) {
       try {
         LiveWidgetUiModel uiModel = await _liveDataRepository.getMatchData('sr:match:23390741');
-        String homeTeamId = uiModel.homeTeamUiModel.id;
-        String awayTeamId = uiModel.awayTeamUiModel.id;
-        yield SuccessUpdateLiveData(uiModel);
+        if (uiModel.hasErrors()) {
+          if (uiModel.exceptions.first is NetworkNotAvailableException) {
+            yield NetworkNotAvailable();
+          } else {
+            yield Failure();
+          }
+        } else {
+          String homeTeamId = uiModel.homeTeamUiModel.id;
+          String awayTeamId = uiModel.awayTeamUiModel.id;
+          yield SuccessUpdateLiveData(uiModel);
 
-        if (homeTeamId != null && homeTeamId.isNotEmpty && teamsMatchResults[homeTeamId] == null) {
-          List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(homeTeamId);
-          _log.d('Load last matches results $matchesResults');
-          teamsMatchResults.putIfAbsent(homeTeamId, () => matchesResults);
-          yield SuccessUpdateTeamMatchStatistics(TeamType.home, matchesResults);
-        }
+          if (homeTeamId != null && homeTeamId.isNotEmpty && teamsMatchResults[homeTeamId] == null) {
+            List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(homeTeamId);
+            _log.d('Load last matches results for home team $matchesResults');
+            teamsMatchResults.putIfAbsent(homeTeamId, () => matchesResults);
+            yield SuccessUpdateTeamMatchStatistics(TeamType.home, matchesResults);
+          }
 
-        if (awayTeamId != null && awayTeamId.isNotEmpty && teamsMatchResults[awayTeamId] == null) {
-          List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(awayTeamId);
-          _log.d('Load last matches results $matchesResults');
-          teamsMatchResults.putIfAbsent(awayTeamId, () => matchesResults);
-          yield SuccessUpdateTeamMatchStatistics(TeamType.away, matchesResults);
+          if (awayTeamId != null && awayTeamId.isNotEmpty && teamsMatchResults[awayTeamId] == null) {
+            List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(awayTeamId);
+            _log.d('Load last matches results for away team $matchesResults');
+            teamsMatchResults.putIfAbsent(awayTeamId, () => matchesResults);
+            yield SuccessUpdateTeamMatchStatistics(TeamType.away, matchesResults);
+          }
         }
       } catch (exception) {
-        _log.e('Can\'t load live events', exception);
+        _log.e('Can\'t load data', exception);
+        yield Failure();
       }
     }
   }
