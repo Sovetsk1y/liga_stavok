@@ -1,4 +1,5 @@
 import 'package:liga/data/model/match_timeline.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 
 import '../enum.dart';
 
@@ -6,11 +7,11 @@ class LiveEventUiModel {
   final int id;
   final LiveEventType type;
   final String time;
+  final TeamType teamType;
   GoalScorer goalScorer;
   Player player;
 
-  LiveEventUiModel(this.id, this.type, this.time,
-      {this.goalScorer, this.player});
+  LiveEventUiModel(this.id, this.type, this.time, this.teamType, {this.goalScorer, this.player});
 }
 
 class LiveEventType extends Enum<String> {

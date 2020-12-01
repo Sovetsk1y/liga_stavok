@@ -1,13 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:liga/data/model/live_event_ui_model.dart';
+import 'package:liga/data/model/results.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 
 part 'match_timeline.g.dart';
 
 @JsonSerializable()
 class MatchTimelineResponse {
+  @JsonKey(name: 'sport_event')
+  final SportEvent sportEvent;
   final List<TimelineItem> timeline;
 
-  MatchTimelineResponse(this.timeline);
+  MatchTimelineResponse(this.sportEvent, this.timeline);
 
   factory MatchTimelineResponse.fromJson(Map<String, dynamic> json) => _$MatchTimelineResponseFromJson(json);
 
@@ -134,6 +138,28 @@ class TimelineItem {
         break;
     }
     return eventType;
+  }
+
+  TeamType getTeamType() {
+    TeamType teamType;
+    switch (team) {
+      case 'home':
+        {
+          teamType = TeamType.home;
+        }
+        break;
+      case 'away':
+        {
+          teamType = TeamType.away;
+        }
+        break;
+      default:
+        {
+          teamType = TeamType.unknown;
+        }
+        break;
+    }
+    return teamType;
   }
 }
 

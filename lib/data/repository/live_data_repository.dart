@@ -7,6 +7,7 @@ import 'package:liga/data/model/live_event_ui_model.dart';
 import 'package:liga/data/model/live_results.dart';
 import 'package:liga/data/model/live_widget_ui_model.dart';
 import 'package:liga/data/model/match_timeline.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 import 'package:liga/net/network_client.dart';
 
 import '../../config.dart';
@@ -40,7 +41,9 @@ class LiveDataRepository {
     MatchTimelineResponse timelineResponse = await _getMatchTimeLineResponseFromAssets();
     List<TimelineItem> timelineItems = _getTimelineItems(timelineResponse.timeline);
     List<LiveEventUiModel> liveEventModels = _mapToLiveEventUiModels(timelineItems);
-    return LiveWidgetUiModel(liveEventModels);
+    final TeamUiModel homeTeamUiModel = TeamUiModel('id', 'name', 'country', TeamType.home, 0, 0, 0, 0, 0, 'ffffff');
+    final TeamUiModel awayTeamUiModel = TeamUiModel('id', 'name', 'country', TeamType.away, 0, 0, 0, 0, 0, 'ff0000');
+    return LiveWidgetUiModel(liveEventModels, homeTeamUiModel, awayTeamUiModel);
   }
 
   Future<MatchTimelineResponse> _getMatchTimeLineResponseFromAssets() async {
@@ -70,7 +73,8 @@ class LiveDataRepository {
     if (timelineItems != null && timelineItems.isNotEmpty) {
       List<TimelineItem> reversedItems = List.from(timelineItems.reversed);
       reversedItems.forEach((timelineItem) {
-        final model = LiveEventUiModel(timelineItem.id, timelineItem.getLiveEventType(), timelineItem.matchTime.toString(),
+        final model = LiveEventUiModel(
+            timelineItem.id, timelineItem.getLiveEventType(), timelineItem.matchTime.toString(), timelineItem.getTeamType(),
             goalScorer: timelineItem.goalScorer, player: timelineItem.player);
         eventUiModels.add(model);
       });
