@@ -49,6 +49,12 @@ class _MatchCommentaryTileState extends State<MatchCommentaryWidget> {
         if (state is SuccessUpdateLiveData) {
           _state = state;
         }
+        if (state is NetworkNotAvailable) {
+          _state = null;
+        }
+        if (state is Failure) {
+          _state = null;
+        }
         if (_state == null)
           return Container();
         else

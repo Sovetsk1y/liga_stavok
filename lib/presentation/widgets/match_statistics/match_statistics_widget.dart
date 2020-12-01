@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,6 +55,29 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
             _homeResults = state.results;
           else
             _awayResults = state.results;
+        }
+        if (state is Failure)
+          return Container(
+            margin: widget.padding,
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                color: Colors.black, borderRadius: Constants.kBorderRadius),
+            child: Center(
+                child: Text(
+                    'Отсутствует интернет-соединение. Попробуйте позже.',
+                    style: Theme.of(context).textTheme.headline2)),
+          );
+        if (state is NetworkNotAvailable) {
+          return Container(
+            margin: widget.padding,
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                color: Colors.black, borderRadius: Constants.kBorderRadius),
+            child: Center(
+                child: Text(
+                    'Отсутствует интернет-соединение. Попробуйте позже.',
+                    style: Theme.of(context).textTheme.headline3)),
+          );
         }
         return ExpandableNotifier(
           controller: _expandableController,
