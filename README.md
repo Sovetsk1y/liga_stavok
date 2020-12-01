@@ -11,4 +11,12 @@ Liga stavok hackaton
       $ flutter pub get
       $ flutter pub run build_runner build
   ```
+  - create `config.json` file with following structure:
+  ```json
+  {
+    "sport_radar_api_key": "your_api_key"
+  }
+  ```
+  - replace `your_api_key` with Sport Radar Api key 
+  - place this file in `assets` folder
   - install app on you device
