@@ -5,23 +5,17 @@ import 'package:liga/utils/constants.dart';
 class _Constants {
   static const WIDGET_TITLE = 'НОВОСТИ/ИНСАЙТЫ';
   static const double NEWS_LIST_VIEW_HEIGHT = 183;
-  static const NEWS_TEST_TEXT =
-      'Помогать главному судье на бровках будут Октавиан Шовре и Себастьян Георге. Обязанности четвертого арбитра достались Себастьяну Колцеску.';
 }
 
-class MatchNewsWidget extends StatefulWidget {
+class MatchNewsWidget extends StatelessWidget {
   final EdgeInsetsGeometry padding;
+  final List<String> funFacts;
 
-  MatchNewsWidget({this.padding});
+  MatchNewsWidget({this.padding, this.funFacts = const []});
 
-  @override
-  _MatchNewsWidgetState createState() => _MatchNewsWidgetState();
-}
-
-class _MatchNewsWidgetState extends State<MatchNewsWidget> {
   @override
   Widget build(BuildContext context) => Container(
-        margin: widget.padding,
+        margin: padding,
         padding: EdgeInsets.only(top: 16, bottom: 16),
         decoration: BoxDecoration(
             borderRadius: Constants.kBorderRadius, color: Colors.black),
@@ -38,23 +32,43 @@ class _MatchNewsWidgetState extends State<MatchNewsWidget> {
             SizedBox(
               height: _Constants.NEWS_LIST_VIEW_HEIGHT,
               child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (context, index) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildNews(DateTime.now(), _Constants.NEWS_TEST_TEXT),
-                    SizedBox(height: 8)
-                  ],
-                ),
-              ),
+                  shrinkWrap: true,
+                  itemCount: funFacts.length,
+                  physics: ClampingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildFunFact(context, funFacts[index]),
+                        SizedBox(height: 8)
+                      ],
+                    );
+                  }),
             )
           ],
         ),
       );
 
-  Widget _buildNews(DateTime date, String text) {
+  Widget _buildFunFact(BuildContext context, String fact) => IntrinsicHeight(
+        child: Row(
+          children: [
+            Container(
+                width: 7,
+                decoration: BoxDecoration(
+                    color: AppColors.lightGrey,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20)))),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(fact, style: Theme.of(context).textTheme.headline4),
+            ),
+            SizedBox(width: 8)
+          ],
+        ),
+      );
+
+  Widget _buildNews(BuildContext context, DateTime date, String text) {
     return IntrinsicHeight(
       child: Row(
         children: [
@@ -72,7 +86,7 @@ class _MatchNewsWidgetState extends State<MatchNewsWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '24 ноября 2020',
+                  date.toString(),
                   style: Theme.of(context).textTheme.headline1,
                 ),
                 Text(text, style: Theme.of(context).textTheme.headline4),

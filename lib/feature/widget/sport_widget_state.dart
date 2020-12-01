@@ -24,6 +24,12 @@ class Success extends SportWidgetState {
   String toString() => 'Success sport widget state';
 }
 
+class SuccessLoadFunFacts extends SportWidgetState {
+  final List<String> funFacts;
+
+  SuccessLoadFunFacts(this.funFacts);
+}
+
 class SuccessUpdateLiveData extends SportWidgetState {
   final LiveWidgetUiModel uiModel;
 
