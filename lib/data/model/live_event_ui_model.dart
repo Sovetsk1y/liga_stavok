@@ -1,4 +1,5 @@
 import 'package:liga/data/model/match_timeline.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 
 import '../enum.dart';
 
@@ -6,11 +7,11 @@ class LiveEventUiModel {
   final int id;
   final LiveEventType type;
   final String time;
+  final TeamType teamType;
   GoalScorer goalScorer;
   Player player;
 
-  LiveEventUiModel(this.id, this.type, this.time,
-      {this.goalScorer, this.player});
+  LiveEventUiModel(this.id, this.type, this.time, this.teamType, {this.goalScorer, this.player});
 }
 
 class LiveEventType extends Enum<String> {
@@ -31,8 +32,9 @@ class LiveEventType extends Enum<String> {
   static const shotOnTarget = const LiveEventType('Удар в створ');
   static const shotSaved = const LiveEventType('Сейв');
   static const offside = const LiveEventType('Офсайд');
-  static const injury = const LiveEventType('injury');
-  static const injuryReturn = const LiveEventType('injuryReturn');
-  static const injuryTimeShown = const LiveEventType('injuryTimeShown');
+  static const injury = const LiveEventType('Травма');
+  static const injuryReturn = const LiveEventType('Возврат травмированного игрока');
+  static const substitution = const LiveEventType('Замена');
+  static const penaltyAwarded = const LiveEventType('Назначен пенальти');
   static const unknown = const LiveEventType('');
 }

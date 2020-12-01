@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 
 part 'results.g.dart';
 
@@ -52,6 +53,28 @@ class Competitor {
   factory Competitor.fromJson(Map<String, dynamic> json) => _$CompetitorFromJson(json);
 
   Map<String, dynamic> toJson() => _$CompetitorToJson(this);
+
+  TeamType getTeamType() {
+    TeamType teamType;
+    switch (qualifier) {
+      case 'home':
+        {
+          teamType = TeamType.home;
+        }
+        break;
+      case 'away':
+        {
+          teamType = TeamType.away;
+        }
+        break;
+      default:
+        {
+          teamType = TeamType.unknown;
+        }
+        break;
+    }
+    return teamType;
+  }
 }
 
 @JsonSerializable()

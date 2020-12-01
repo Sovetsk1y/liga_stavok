@@ -1,13 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:liga/data/model/live_event_ui_model.dart';
+import 'package:liga/data/model/results.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 
 part 'match_timeline.g.dart';
 
 @JsonSerializable()
 class MatchTimelineResponse {
+  @JsonKey(name: 'sport_event')
+  final SportEvent sportEvent;
   final List<TimelineItem> timeline;
 
-  MatchTimelineResponse(this.timeline);
+  MatchTimelineResponse(this.sportEvent, this.timeline);
 
   factory MatchTimelineResponse.fromJson(Map<String, dynamic> json) => _$MatchTimelineResponseFromJson(json);
 
@@ -28,7 +32,13 @@ class TimelineItem {
   @JsonKey(name: 'goal_scorer')
   final GoalScorer goalScorer;
 
-  TimelineItem(this.id, this.type, this.commentaries, this.team, this.matchTime, this.player, this.goalScorer);
+  @JsonKey(name: 'home_score')
+  final int homeScore;
+
+  @JsonKey(name: 'away_score')
+  final int awayScore;
+
+  TimelineItem(this.id, this.type, this.commentaries, this.team, this.matchTime, this.player, this.goalScorer, this.homeScore, this.awayScore);
 
   factory TimelineItem.fromJson(Map<String, dynamic> json) => _$TimelineItemFromJson(json);
 
@@ -122,9 +132,14 @@ class TimelineItem {
           eventType = LiveEventType.injuryReturn;
         }
         break;
-      case 'injury_time_shown':
+      case 'substitution':
         {
-          eventType = LiveEventType.injuryTimeShown;
+          eventType = LiveEventType.substitution;
+        }
+        break;
+      case 'penalty_awarded':
+        {
+          eventType = LiveEventType.penaltyAwarded;
         }
         break;
       default:
@@ -134,6 +149,28 @@ class TimelineItem {
         break;
     }
     return eventType;
+  }
+
+  TeamType getTeamType() {
+    TeamType teamType;
+    switch (team) {
+      case 'home':
+        {
+          teamType = TeamType.home;
+        }
+        break;
+      case 'away':
+        {
+          teamType = TeamType.away;
+        }
+        break;
+      default:
+        {
+          teamType = TeamType.unknown;
+        }
+        break;
+    }
+    return teamType;
   }
 }
 
