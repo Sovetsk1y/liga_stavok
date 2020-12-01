@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liga/data/repository/live_data_repository.dart';
@@ -38,6 +39,8 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
   ExpandableController _matchCommentaryController = ExpandableController();
   ExpandableController _matchStatisticsController = ExpandableController();
 
+  List<String> _funFacts = [];
+
   @override
   void initState() {
     super.initState();
@@ -54,9 +57,12 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
         ..add(LoadIndividualTotal()),
       child: BlocBuilder<SportWidgetBloc, SportWidgetState>(
           builder: (context, state) {
+        if (state is SuccessLoadFunFacts) {
+          _funFacts = state.funFacts;
+        }
         return Scaffold(
           backgroundColor: AppColors.green,
-          body: _buildBody(),
+          body: _buildBody(state),
         );
       }));
 
@@ -84,7 +90,7 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(SportWidgetState state) {
     return SafeArea(
       top: true,
       child: ListView(
@@ -97,16 +103,25 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildLiveTag(),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildPageViewIndicatorDot(
-                        isActive:
-                            _currentPage == _Constants.PAGE_VIEW_STATISTICS),
-                    SizedBox(width: 6),
-                    _buildPageViewIndicatorDot(
-                        isActive: _currentPage == _Constants.PAGE_VIEW_NEWS)
-                  ],
+                Visibility(
+                  visible: _funFacts.isNotEmpty,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildPageViewIndicatorDot(
+                          isActive:
+                              _currentPage == _Constants.PAGE_VIEW_STATISTICS),
+                      Visibility(
+                        visible: _funFacts.isNotEmpty,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6),
+                          child: _buildPageViewIndicatorDot(
+                              isActive:
+                                  _currentPage == _Constants.PAGE_VIEW_NEWS),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 _buildExitButton()
               ],
@@ -127,7 +142,9 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
                 SingleChildScrollView(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
-                  physics: PageScrollPhysics(parent: ClampingScrollPhysics()),
+                  physics: _funFacts.isEmpty
+                      ? NeverScrollableScrollPhysics()
+                      : PageScrollPhysics(parent: ClampingScrollPhysics()),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -141,12 +158,15 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: MatchNewsWidget(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                      Visibility(
+                        visible: _funFacts.isNotEmpty,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: MatchNewsWidget(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                funFacts: _funFacts),
                           ),
                         ),
                       ),

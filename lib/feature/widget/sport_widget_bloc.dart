@@ -16,9 +16,12 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
   final LiveDataRepository _liveDataRepository;
   final Log _log;
 
-  final Duration _duration = Duration(seconds: _LIVE_DATA_UPDATE_DURATION_IN_SECONDS);
+  final Duration _duration =
+      Duration(seconds: _LIVE_DATA_UPDATE_DURATION_IN_SECONDS);
 
-  SportWidgetBloc(this._staticDataRepository, this._liveDataRepository, this._log) : super(Initial()) {
+  SportWidgetBloc(
+      this._staticDataRepository, this._liveDataRepository, this._log)
+      : super(Initial()) {
     Timer(_duration, _handleTimeout);
   }
 
@@ -29,14 +32,18 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
       yield Loading();
 
       try {
-        int individualTotal = await _staticDataRepository.getIndividualTotalForLastMatches('23992');
+        int individualTotal = await _staticDataRepository
+            .getIndividualTotalForLastMatches('23992');
         _log.d('load individual total $individualTotal');
 
-        List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults('23992');
+        List<MatchResult> matchesResults =
+            await _staticDataRepository.getLastMatchesResults('23992');
         _log.d('Load last matches results $matchesResults');
 
-        List<String> funFacts = await _staticDataRepository.getMatchFunFacts('sr:match:19173938', 3);
+        List<String> funFacts = await _staticDataRepository.getMatchFunFacts(
+            'sr:match:19173938', 3);
         _log.d('Load match fun facts $funFacts');
+        yield SuccessLoadFunFacts(funFacts);
       } catch (exception) {
         _log.e('Can\'t load data', exception);
       }
