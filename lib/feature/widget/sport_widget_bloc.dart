@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:liga/data/model/live_event.dart';
-import 'package:liga/data/model/team_results.dart';
+import 'package:liga/data/model/live_widget_ui_model.dart';
+import 'package:liga/data/model/results.dart';
 import 'package:liga/data/repository/live_data_repository.dart';
 import 'package:liga/data/repository/static_data_repository.dart';
 import 'package:liga/feature/widget/sport_widget_event.dart';
@@ -32,12 +32,10 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
       yield Loading();
 
       try {
-        int individualTotal = await _staticDataRepository
-            .getIndividualTotalForLastMatches('23992');
+        int individualTotal = await _staticDataRepository.getIndividualTotalForLastMatches('sr:competitor:23992');
         _log.d('load individual total $individualTotal');
 
-        List<MatchResult> matchesResults =
-            await _staticDataRepository.getLastMatchesResults('23992');
+        List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults('sr:competitor:23992');
         _log.d('Load last matches results $matchesResults');
 
         List<String> funFacts = await _staticDataRepository.getMatchFunFacts(
@@ -49,10 +47,9 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
       }
     } else if (event is UpdateLiveData) {
       try {
-        LiveEvent event = await _liveDataRepository.getLiveEvent();
-        List<LiveEvent> events = await _liveDataRepository.getLiveEvents();
-
-        yield SuccessUpdateLiveData(event, events);
+        LiveWidgetUiModel uiModel = await _liveDataRepository.getLiveData();
+        _log.d('Create live widget UI model $uiModel');
+        yield SuccessUpdateLiveData(uiModel);
       } catch (exception) {
         _log.e('Can\'t load live events', exception);
       }
