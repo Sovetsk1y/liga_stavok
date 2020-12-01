@@ -32,7 +32,13 @@ class TimelineItem {
   @JsonKey(name: 'goal_scorer')
   final GoalScorer goalScorer;
 
-  TimelineItem(this.id, this.type, this.commentaries, this.team, this.matchTime, this.player, this.goalScorer);
+  @JsonKey(name: 'home_score')
+  final int homeScore;
+
+  @JsonKey(name: 'away_score')
+  final int awayScore;
+
+  TimelineItem(this.id, this.type, this.commentaries, this.team, this.matchTime, this.player, this.goalScorer, this.homeScore, this.awayScore);
 
   factory TimelineItem.fromJson(Map<String, dynamic> json) => _$TimelineItemFromJson(json);
 
