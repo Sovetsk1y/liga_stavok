@@ -8,8 +8,10 @@ import 'package:liga/utils/constants.dart';
 class MatchStatisticsWidget extends StatefulWidget {
   final EdgeInsetsGeometry padding;
   final ExpandableController controller;
+  final VoidCallback onShowOnboarding;
 
-  MatchStatisticsWidget({Key key, this.padding, this.controller})
+  MatchStatisticsWidget(
+      {Key key, this.padding, this.controller, this.onShowOnboarding})
       : super(key: key);
 
   @override
@@ -17,9 +19,20 @@ class MatchStatisticsWidget extends StatefulWidget {
 }
 
 class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
+  bool _isFirstExpansion = true;
+
+  ExpandableController _expandableController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _expandableController = widget.controller ?? ExpandableController();
+  }
+
   @override
   Widget build(BuildContext context) => ExpandableNotifier(
-        controller: widget.controller,
+        controller: _expandableController,
         child: Container(
           margin: widget.padding,
           padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -77,7 +90,22 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
             homeValue: 0, awayValue: 11, title: 'Красные карточки'),
         SizedBox(height: 8),
         Visibility(
-            visible: !isExpanded,
+          visible: !isExpanded && _isFirstExpansion,
+          child: GestureDetector(
+            onTap: () {
+              if (_isFirstExpansion && widget.onShowOnboarding != null) {
+                _isFirstExpansion = false;
+                _expandableController.toggle();
+                widget.onShowOnboarding();
+              }
+            },
+            child: AbsorbPointer(
+                absorbing: true,
+                child: ExpandableButton(child: AppIcons.arrowDown)),
+          ),
+        ),
+        Visibility(
+            visible: !isExpanded && !_isFirstExpansion,
             child: ExpandableButton(child: AppIcons.arrowDown))
       ],
     );

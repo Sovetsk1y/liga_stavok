@@ -11,11 +11,13 @@ class SingleStatisticsIndicator extends StatelessWidget {
   final double awayValue;
   final String title;
   final Widget icon;
+  final Color progressBackgroundColor;
 
   SingleStatisticsIndicator(
       {@required this.homeValue,
       @required this.awayValue,
       @required this.title,
+      this.progressBackgroundColor,
       this.icon});
 
   double get maxValue => homeValue + awayValue;
@@ -33,7 +35,8 @@ class SingleStatisticsIndicator extends StatelessWidget {
                 Expanded(
                   child: LinearProgressIndicator(
                     minHeight: _Constants.kLinearProgressIndicatorHeight,
-                    valueColor: AlwaysStoppedAnimation(AppColors.grey),
+                    valueColor: AlwaysStoppedAnimation(
+                        progressBackgroundColor ?? AppColors.grey),
                     backgroundColor:
                         homeValue > awayValue ? AppColors.green : Colors.white,
                     value: 1 - (homeValue / maxValue),
@@ -42,7 +45,7 @@ class SingleStatisticsIndicator extends StatelessWidget {
                 Expanded(
                   child: LinearProgressIndicator(
                     minHeight: _Constants.kLinearProgressIndicatorHeight,
-                    backgroundColor: AppColors.grey,
+                    backgroundColor: progressBackgroundColor ?? AppColors.grey,
                     valueColor: AlwaysStoppedAnimation(
                         awayValue > homeValue ? AppColors.green : Colors.white),
                     value: awayValue / maxValue,
