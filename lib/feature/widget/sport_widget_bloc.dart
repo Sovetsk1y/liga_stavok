@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:liga/data/model/live_widget_ui_model.dart';
 import 'package:liga/data/model/results.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 import 'package:liga/data/repository/live_data_repository.dart';
 import 'package:liga/data/repository/static_data_repository.dart';
 import 'package:liga/feature/widget/sport_widget_event.dart';
@@ -16,12 +18,11 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
   final LiveDataRepository _liveDataRepository;
   final Log _log;
 
-  final Duration _duration =
-      Duration(seconds: _LIVE_DATA_UPDATE_DURATION_IN_SECONDS);
+  final Duration _duration = Duration(seconds: _LIVE_DATA_UPDATE_DURATION_IN_SECONDS);
 
-  SportWidgetBloc(
-      this._staticDataRepository, this._liveDataRepository, this._log)
-      : super(Initial()) {
+  Map<String, List<MatchResult>> teamsMatchResults = HashMap();
+
+  SportWidgetBloc(this._staticDataRepository, this._liveDataRepository, this._log) : super(Initial()) {
     Timer(_duration, _handleTimeout);
   }
 
@@ -35,11 +36,7 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
         int individualTotal = await _staticDataRepository.getIndividualTotalForLastMatches('sr:competitor:23992');
         _log.d('load individual total $individualTotal');
 
-        List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults('sr:competitor:23992');
-        _log.d('Load last matches results $matchesResults');
-
-        List<String> funFacts = await _staticDataRepository.getMatchFunFacts(
-            'sr:match:19173938', 3);
+        List<String> funFacts = await _staticDataRepository.getMatchFunFacts('sr:match:19173938', 3);
         _log.d('Load match fun facts $funFacts');
         yield SuccessLoadFunFacts(funFacts);
       } catch (exception) {
@@ -47,9 +44,24 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
       }
     } else if (event is UpdateLiveData) {
       try {
-        LiveWidgetUiModel uiModel = await _liveDataRepository.getLiveData();
-        _log.d('Create live widget UI model $uiModel');
+        LiveWidgetUiModel uiModel = await _liveDataRepository.getMatchData('sr:match:23390741');
+        String homeTeamId = uiModel.homeTeamUiModel.id;
+        String awayTeamId = uiModel.awayTeamUiModel.id;
         yield SuccessUpdateLiveData(uiModel);
+
+        if (homeTeamId != null && homeTeamId.isNotEmpty && teamsMatchResults[homeTeamId] == null) {
+          List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(homeTeamId);
+          _log.d('Load last matches results $matchesResults');
+          teamsMatchResults.putIfAbsent(homeTeamId, () => matchesResults);
+          yield SuccessUpdateTeamMatchStatistics(TeamType.home, matchesResults);
+        }
+
+        if (awayTeamId != null && awayTeamId.isNotEmpty && teamsMatchResults[awayTeamId] == null) {
+          List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(awayTeamId);
+          _log.d('Load last matches results $matchesResults');
+          teamsMatchResults.putIfAbsent(awayTeamId, () => matchesResults);
+          yield SuccessUpdateTeamMatchStatistics(TeamType.away, matchesResults);
+        }
       } catch (exception) {
         _log.e('Can\'t load live events', exception);
       }

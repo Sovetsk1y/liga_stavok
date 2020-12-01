@@ -36,5 +36,7 @@ class LiveEventType extends Enum<String> {
   static const injuryReturn = const LiveEventType('Возврат травмированного игрока');
   static const substitution = const LiveEventType('Замена');
   static const penaltyAwarded = const LiveEventType('Назначен пенальти');
+  static const videoAssistantReferee = const LiveEventType('VAR');
+  static const videoAssistantRefereeOver = const LiveEventType('VAR Decision');
   static const unknown = const LiveEventType('');
 }
