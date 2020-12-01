@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:liga/data/model/live_event_ui_model.dart';
-import 'package:liga/data/model/team_ui_model.dart';
 import 'package:liga/utils/app_colors.dart';
 import 'package:liga/utils/constants.dart';
+import 'package:liga/utils/hex_color.dart';
 
 class _Constants {
   static const double TEAM_INDICATOR_HEIGHT = 40;
@@ -118,21 +118,9 @@ class MatchCommentaryTile extends StatelessWidget {
         height: _Constants.TEAM_INDICATOR_HEIGHT,
         width: 7,
         decoration: BoxDecoration(
-            color: _getTeamColor(),
+            color: HexColor(liveEvent.teamColor),
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20))),
       );
-
-  // ignore: missing_return
-  Color _getTeamColor() {
-    switch (liveEvent.teamType) {
-      case TeamType.home:
-        return AppColors.green;
-      case TeamType.away:
-        return Colors.white;
-      case TeamType.unknown:
-        return AppColors.lightGrey;
-    }
-  }
 }

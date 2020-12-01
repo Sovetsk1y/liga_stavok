@@ -14,7 +14,6 @@ import 'package:liga/net/network_client.dart';
 import 'package:liga/presentation/widgets/match_commentary/match_commentary_widget.dart';
 import 'package:liga/presentation/widgets/match_news/match_news_widget.dart';
 import 'package:liga/presentation/widgets/match_statistics/match_statistics_widget.dart';
-import 'package:liga/presentation/widgets/match_statistics/single_statistics_indicator.dart';
 import 'package:liga/presentation/widgets/match_statistics/statistics_widget_onboarding.dart';
 import 'package:liga/utils/app_colors.dart';
 import 'package:liga/utils/app_icons.dart';

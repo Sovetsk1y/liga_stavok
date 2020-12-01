@@ -13,9 +13,9 @@ import 'package:liga/net/network_client.dart';
 import '../../config.dart';
 
 class LiveDataRepository {
-  static const String _COLOR_HOME = 'ffffff';
-  static const String _COLOR_AWAY = '008000';
-  static const String _COLOR_DEFAULT = 'ff0000';
+  static const String _COLOR_HOME = '008C62';
+  static const String _COLOR_AWAY = 'ffffff';
+  static const String _COLOR_DEFAULT = '7e7e7e';
 
   // ignore: unused_field
   final NetworkClient _networkClient;
@@ -25,7 +25,8 @@ class LiveDataRepository {
 
   static LiveDataRepository _instance;
 
-  final bool showLiveData = true; // true for load from file match in live, false - for closed match
+  final bool showLiveData =
+      true; // true for load from file match in live, false - for closed match
 
   MatchTimelineResponse _timelineResponse;
   int _timelineItemsIndex = 0;
@@ -48,14 +49,18 @@ class LiveDataRepository {
     // uncomment this block and remove response json when going to use backend
     /*String apiKey = await _config.getApiKey();
     MatchTimelineResponse timelineResponse = await _networkClient.getMatchTimeLine(matchId, apiKey);*/
-    MatchTimelineResponse timelineResponse = await _getMatchTimeLineResponseFromAssets();
-    List<TimelineItem> timelineItems = _getTimelineItems(timelineResponse.timeline);
+    MatchTimelineResponse timelineResponse =
+        await _getMatchTimeLineResponseFromAssets();
+    List<TimelineItem> timelineItems =
+        _getTimelineItems(timelineResponse.timeline);
     return _mapToUiModel(timelineResponse, timelineItems);
   }
 
   Future<MatchTimelineResponse> _getMatchTimeLineResponseFromAssets() async {
     if (_timelineResponse == null) {
-      final String jsonPath = showLiveData ? 'assets/MatchTimelineResponseLive.json' : 'assets/MatchTimelineResponseClosed.json';
+      final String jsonPath = showLiveData
+          ? 'assets/MatchTimelineResponseLive.json'
+          : 'assets/MatchTimelineResponseClosed.json';
       final String content = await rootBundle.loadString(jsonPath);
       final json = jsonDecode(content);
       _timelineResponse = MatchTimelineResponse.fromJson(json);
@@ -76,7 +81,8 @@ class LiveDataRepository {
     return result;
   }
 
-  LiveWidgetUiModel _mapToUiModel(MatchTimelineResponse timelineResponse, List<TimelineItem> timelineItems) {
+  LiveWidgetUiModel _mapToUiModel(MatchTimelineResponse timelineResponse,
+      List<TimelineItem> timelineItems) {
     int homeTeamGoals = 0;
     int awayTeamGoals = 0;
 
@@ -120,8 +126,13 @@ class LiveDataRepository {
         }
 
         final model = LiveEventUiModel(
-            timelineItem.id, timelineItem.getLiveEventType(), timelineItem.matchTime.toString(), timelineItem.getTeamType(), teamColor,
-            goalScorer: timelineItem.goalScorer, player: timelineItem.player);
+            timelineItem.id,
+            timelineItem.getLiveEventType(),
+            timelineItem.matchTime.toString(),
+            timelineItem.getTeamType(),
+            teamColor,
+            goalScorer: timelineItem.goalScorer,
+            player: timelineItem.player);
         eventUiModels.add(model);
 
         if (LiveEventType.scoreChange == eventType) {
@@ -215,6 +226,7 @@ class LiveDataRepository {
       });
     }
 
-    return LiveWidgetUiModel(_timelineResponse.sportEventStatus.isLive(), eventUiModels, homeTeamUiModel, awayTeamUiModel);
+    return LiveWidgetUiModel(_timelineResponse.sportEventStatus.isLive(),
+        eventUiModels, homeTeamUiModel, awayTeamUiModel);
   }
 }

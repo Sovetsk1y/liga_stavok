@@ -1,11 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:liga/data/repository/live_data_repository.dart';
+import 'package:liga/data/repository/static_data_repository.dart';
 import 'package:liga/feature/widget/sport_widget_bloc.dart';
+import 'package:liga/feature/widget/sport_widget_event.dart';
 import 'package:liga/feature/widget/sport_widget_state.dart';
+import 'package:liga/net/network_client.dart';
 import 'package:liga/presentation/widgets/match_commentary/match_commentary_tile.dart';
 import 'package:liga/utils/app_icons.dart';
 import 'package:liga/utils/constants.dart';
+import 'package:liga/utils/log.dart';
+
+import '../../../config.dart';
 
 class _Constants {
   //dimensions
@@ -23,6 +31,7 @@ class MatchCommentaryWidget extends StatefulWidget {
 
 class _MatchCommentaryTileState extends State<MatchCommentaryWidget> {
   ExpandableController _expandableController;
+  SuccessUpdateLiveData _state;
 
   @override
   void initState() {
@@ -38,6 +47,11 @@ class _MatchCommentaryTileState extends State<MatchCommentaryWidget> {
   Widget build(BuildContext context) =>
       BlocBuilder<SportWidgetBloc, SportWidgetState>(builder: (context, state) {
         if (state is SuccessUpdateLiveData) {
+          _state = state;
+        }
+        if (_state == null)
+          return Container();
+        else
           return ExpandableNotifier(
             controller: _expandableController,
             child: Container(
@@ -50,16 +64,17 @@ class _MatchCommentaryTileState extends State<MatchCommentaryWidget> {
                     children: [
                       Expandable(
                           collapsed: MatchCommentaryTile(
-                              state.uiModel.liveEventUiModels.first),
+                              _state.uiModel.liveEventUiModels.first),
                           expanded: SizedBox(
                             height: _Constants.EXPANDED_HEIGHT,
                             child: ListView.builder(
                               physics: ClampingScrollPhysics(),
-                              itemCount: state.uiModel.liveEventUiModels.length,
+                              itemCount:
+                                  _state.uiModel.liveEventUiModels.length,
                               itemBuilder: (context, index) => Column(
                                 children: [
                                   MatchCommentaryTile(
-                                      state.uiModel.liveEventUiModels[index]),
+                                      _state.uiModel.liveEventUiModels[index]),
                                   SizedBox(height: 8)
                                 ],
                               ),
@@ -97,7 +112,14 @@ class _MatchCommentaryTileState extends State<MatchCommentaryWidget> {
               ),
             ),
           );
-        } else
-          return Container();
       });
+
+  NetworkClient _createNetworkClient() {
+    final dio = Dio();
+    return NetworkClient(dio);
+  }
+
+  Config _createConfig() => Config();
+
+  Log _createLog() => Log();
 }

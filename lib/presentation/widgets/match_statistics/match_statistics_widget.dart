@@ -2,7 +2,11 @@ import 'dart:math';
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liga/data/model/results.dart';
+import 'package:liga/data/model/team_ui_model.dart';
+import 'package:liga/feature/widget/sport_widget_bloc.dart';
+import 'package:liga/feature/widget/sport_widget_state.dart';
 import 'package:liga/presentation/widgets/match_statistics/single_statistics_indicator.dart';
 import 'package:liga/presentation/widgets/match_statistics/team_overview_container.dart';
 import 'package:liga/utils/app_icons.dart';
@@ -16,14 +20,9 @@ class MatchStatisticsWidget extends StatefulWidget {
   final EdgeInsetsGeometry padding;
   final ExpandableController controller;
   final VoidCallback onShowOnboarding;
-  final List<Result> results;
 
   MatchStatisticsWidget(
-      {Key key,
-      this.padding,
-      this.controller,
-      this.onShowOnboarding,
-      this.results = const []})
+      {Key key, this.padding, this.controller, this.onShowOnboarding})
       : super(key: key);
 
   @override
@@ -36,6 +35,8 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
   ExpandableController _expandableController;
 
   List _children;
+  List<MatchResult> _homeResults = [];
+  List<MatchResult> _awayResults = [];
 
   @override
   void initState() {
@@ -49,25 +50,34 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => ExpandableNotifier(
-        controller: _expandableController,
-        child: Container(
-          margin: widget.padding,
-          padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-          decoration: BoxDecoration(
-              color: Colors.black, borderRadius: Constants.kBorderRadius),
-          child: Expandable(
-            collapsed: _buildCollapsed(context),
-            expanded: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildCollapsed(context, isExpanded: true),
-                ExpandableButton(child: AppIcons.arrowUp)
-              ],
+  Widget build(BuildContext context) =>
+      BlocBuilder<SportWidgetBloc, SportWidgetState>(builder: (context, state) {
+        if (state is SuccessUpdateTeamMatchStatistics) {
+          if (state.teamType == TeamType.home)
+            _homeResults = state.results;
+          else
+            _awayResults = state.results;
+        }
+        return ExpandableNotifier(
+          controller: _expandableController,
+          child: Container(
+            margin: widget.padding,
+            padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+            decoration: BoxDecoration(
+                color: Colors.black, borderRadius: Constants.kBorderRadius),
+            child: Expandable(
+              collapsed: _buildCollapsed(context),
+              expanded: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildCollapsed(context, isExpanded: true),
+                  ExpandableButton(child: AppIcons.arrowUp)
+                ],
+              ),
             ),
           ),
-        ),
-      );
+        );
+      });
 
   Column _buildCollapsed(BuildContext context, {bool isExpanded = false}) {
     return Column(
@@ -79,6 +89,7 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
           children: [
             TeamOverviewContainer(
               teamColor: Colors.orange,
+              results: _homeResults,
             ),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -92,6 +103,7 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
             ),
             TeamOverviewContainer(
               teamColor: Colors.purple,
+              results: _awayResults,
             )
           ],
         ),
