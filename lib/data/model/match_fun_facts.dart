@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:liga/data/model/team_results.dart';
+import 'package:liga/data/model/results.dart';
 
 part 'match_fun_facts.g.dart';
 
