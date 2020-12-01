@@ -2,14 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:liga/data/model/live_event_ui_model.dart';
-
 // ignore: unused_import
 import 'package:liga/data/model/live_results.dart';
 import 'package:liga/data/model/live_widget_ui_model.dart';
 import 'package:liga/data/model/match_timeline.dart';
 import 'package:liga/data/model/results.dart';
 import 'package:liga/data/model/team_ui_model.dart';
-import 'package:liga/feature/widget/sport_widget_state.dart';
 import 'package:liga/net/network_client.dart';
 
 import '../../config.dart';
@@ -23,6 +21,8 @@ class LiveDataRepository {
 
   static LiveDataRepository _instance;
 
+  final bool showLiveData = true; // true for load from file match in live, false - for closed match
+
   MatchTimelineResponse _timelineResponse;
   int _timelineItemsIndex = 0;
 
@@ -34,11 +34,15 @@ class LiveDataRepository {
     _instance = this;
   }
 
-  Future<LiveWidgetUiModel> getLiveData() async {
-    // uncomment this block and remove response json when want going to use backend
-    /*String apiKey = await _config.getApiKey();
+  Future<List<Result>> getLiveMatchResults() async {
+    String apiKey = await _config.getApiKey();
     LiveResultsResponse response = await _networkClient.getLiveResults(apiKey);
-    String matchId = response.results.first.sportEvent.id;
+    return response.results;
+  }
+
+  Future<LiveWidgetUiModel> getMatchData(String matchId) async {
+    // uncomment this block and remove response json when going to use backend
+    /*String apiKey = await _config.getApiKey();
     MatchTimelineResponse timelineResponse = await _networkClient.getMatchTimeLine(matchId, apiKey);*/
     MatchTimelineResponse timelineResponse = await _getMatchTimeLineResponseFromAssets();
     List<TimelineItem> timelineItems = _getTimelineItems(timelineResponse.timeline);
@@ -47,7 +51,8 @@ class LiveDataRepository {
 
   Future<MatchTimelineResponse> _getMatchTimeLineResponseFromAssets() async {
     if (_timelineResponse == null) {
-      final String content = await rootBundle.loadString('assets/MatchTimelineResponse.json');
+      final String jsonPath = showLiveData ? 'assets/MatchTimelineResponseLive.json' : 'assets/MatchTimelineResponseClosed.json';
+      final String content = await rootBundle.loadString(jsonPath);
       final json = jsonDecode(content);
       _timelineResponse = MatchTimelineResponse.fromJson(json);
     }
@@ -189,6 +194,6 @@ class LiveDataRepository {
       });
     }
 
-    return LiveWidgetUiModel(eventUiModels, homeTeamUiModel, awayTeamUiModel);
+    return LiveWidgetUiModel(_timelineResponse.sportEventStatus.isLive(), eventUiModels, homeTeamUiModel, awayTeamUiModel);
   }
 }

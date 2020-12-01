@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:liga/data/enum.dart';
 import 'package:liga/data/model/team_ui_model.dart';
 
 part 'results.g.dart';
@@ -95,6 +96,16 @@ class SportEventStatus {
   factory SportEventStatus.fromJson(Map<String, dynamic> json) => _$SportEventStatusFromJson(json);
 
   Map<String, dynamic> toJson() => _$SportEventStatusToJson(this);
+
+  bool isLive() {
+    return status == 'live';
+  }
 }
 
-enum MatchResult { win, lose, draw }
+class MatchResult extends Enum<String> {
+  const MatchResult(String value) : super(value);
+
+  static const win = const MatchResult('В');
+  static const lose = const MatchResult('П');
+  static const draw = const MatchResult('Н');
+}

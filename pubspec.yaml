@@ -52,4 +52,5 @@ flutter:
     - assets/config.json
     - assets/icons/
     - assets/images/
-    - assets/MatchTimelineResponse.json
+    - assets/MatchTimelineResponseLive.json
+    - assets/MatchTimelineResponseClosed.json

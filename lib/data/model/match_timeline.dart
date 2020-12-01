@@ -9,9 +9,13 @@ part 'match_timeline.g.dart';
 class MatchTimelineResponse {
   @JsonKey(name: 'sport_event')
   final SportEvent sportEvent;
+
+  @JsonKey(name: 'sport_event_status')
+  final SportEventStatus sportEventStatus;
+
   final List<TimelineItem> timeline;
 
-  MatchTimelineResponse(this.sportEvent, this.timeline);
+  MatchTimelineResponse(this.sportEvent, this.sportEventStatus, this.timeline);
 
   factory MatchTimelineResponse.fromJson(Map<String, dynamic> json) => _$MatchTimelineResponseFromJson(json);
 
@@ -25,6 +29,7 @@ class TimelineItem {
   final List<Commentary> commentaries;
   final String team;
   final Player player;
+  final String outcome;
 
   @JsonKey(name: 'match_time')
   final int matchTime;
@@ -38,7 +43,8 @@ class TimelineItem {
   @JsonKey(name: 'away_score')
   final int awayScore;
 
-  TimelineItem(this.id, this.type, this.commentaries, this.team, this.matchTime, this.player, this.goalScorer, this.homeScore, this.awayScore);
+  TimelineItem(
+      this.id, this.type, this.commentaries, this.team, this.matchTime, this.player, this.goalScorer, this.homeScore, this.awayScore, this.outcome);
 
   factory TimelineItem.fromJson(Map<String, dynamic> json) => _$TimelineItemFromJson(json);
 
@@ -140,6 +146,16 @@ class TimelineItem {
       case 'penalty_awarded':
         {
           eventType = LiveEventType.penaltyAwarded;
+        }
+        break;
+      case 'video_assistant_referee':
+        {
+          eventType = LiveEventType.videoAssistantReferee;
+        }
+        break;
+      case 'video_assistant_referee_over':
+        {
+          eventType = LiveEventType.videoAssistantRefereeOver;
         }
         break;
       default:
