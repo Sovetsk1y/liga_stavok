@@ -8,8 +8,12 @@ import 'match_result_thumbnail.dart';
 class TeamOverviewContainer extends StatelessWidget {
   final Color teamColor;
   final List<MatchResult> results;
+  final String teamName;
 
-  TeamOverviewContainer({@required this.teamColor, @required this.results});
+  TeamOverviewContainer(
+      {@required this.teamColor,
+      @required this.results,
+      @required this.teamName});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -17,7 +21,7 @@ class TeamOverviewContainer extends StatelessWidget {
         children: [
           SvgPicture.asset(Constants.TEAM_EMPTY_LOGO, color: teamColor),
           SizedBox(height: 8),
-          Text('FC Shakhtar', style: Theme.of(context).textTheme.headline3),
+          Text(teamName, style: Theme.of(context).textTheme.headline3),
           SizedBox(height: 4),
           Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -109,6 +109,7 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TeamOverviewContainer(
+              teamName: 'FC Shakhtar',
               teamColor: Colors.orange,
               results: _homeResults,
             ),
@@ -124,6 +125,7 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
             ),
             TeamOverviewContainer(
               teamColor: Colors.purple,
+              teamName: 'Real Madrid',
               results: _awayResults,
             )
           ],
