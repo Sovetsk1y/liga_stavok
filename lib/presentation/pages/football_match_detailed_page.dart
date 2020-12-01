@@ -10,6 +10,7 @@ import 'package:liga/data/repository/static_data_repository.dart';
 import 'package:liga/feature/widget/sport_widget_bloc.dart';
 import 'package:liga/feature/widget/sport_widget_event.dart';
 import 'package:liga/feature/widget/sport_widget_state.dart';
+import 'package:liga/net/interceptors.dart';
 import 'package:liga/net/network_client.dart';
 import 'package:liga/presentation/widgets/match_commentary/match_commentary_widget.dart';
 import 'package:liga/presentation/widgets/match_news/match_news_widget.dart';
@@ -24,8 +25,7 @@ import '../../config.dart';
 class _Constants {
   static const double PAGE_VIEW_INDICATOR_DOT_SIDE = 6;
 
-  static const String MOCK_BACKGROUND_IMAGE =
-      'assets/images/mock_background.png';
+  static const String MOCK_BACKGROUND_IMAGE = 'assets/images/mock_background.png';
 
   //page view indexes
   static const int PAGE_VIEW_STATISTICS = 0;
@@ -34,8 +34,7 @@ class _Constants {
 
 class FootballMatchDetailedPage extends StatefulWidget {
   @override
-  _FootballMatchDetailedPageState createState() =>
-      _FootballMatchDetailedPageState();
+  _FootballMatchDetailedPageState createState() => _FootballMatchDetailedPageState();
 }
 
 class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
@@ -58,13 +57,10 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
   @override
   Widget build(BuildContext context) => BlocProvider(
       create: (context) => SportWidgetBloc(
-          StaticDataRepository(_createNetworkClient(), _createConfig()),
-          LiveDataRepository(_createNetworkClient(), _createConfig()),
-          _createLog())
+          StaticDataRepository(_createNetworkClient(), _createConfig()), LiveDataRepository(_createNetworkClient(), _createConfig()), _createLog())
         ..add(LoadIndividualTotal())
         ..add(UpdateLiveData()),
-      child: BlocBuilder<SportWidgetBloc, SportWidgetState>(
-          builder: (context, state) {
+      child: BlocBuilder<SportWidgetBloc, SportWidgetState>(builder: (context, state) {
         if (state is SuccessLoadFunFacts) {
           _funFacts = state.funFacts;
         }
@@ -89,8 +85,7 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
         Container(
           height: 10,
           width: 10,
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: AppColors.red),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.red),
         ),
         SizedBox(width: 4),
         Text('live', style: Theme.of(context).textTheme.headline3)
@@ -118,16 +113,12 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          _buildPageViewIndicatorDot(
-                              isActive: _currentPage ==
-                                  _Constants.PAGE_VIEW_STATISTICS),
+                          _buildPageViewIndicatorDot(isActive: _currentPage == _Constants.PAGE_VIEW_STATISTICS),
                           Visibility(
                             visible: _funFacts.isNotEmpty,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 6),
-                              child: _buildPageViewIndicatorDot(
-                                  isActive: _currentPage ==
-                                      _Constants.PAGE_VIEW_NEWS),
+                              child: _buildPageViewIndicatorDot(isActive: _currentPage == _Constants.PAGE_VIEW_NEWS),
                             ),
                           )
                         ],
@@ -143,8 +134,7 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
-                          bottom: 16, top: 8, left: 16, right: 16),
+                      padding: EdgeInsets.only(bottom: 16, top: 8, left: 16, right: 16),
                       child: MatchCommentaryWidget(
                         controller: _matchCommentaryController,
                       ),
@@ -152,9 +142,7 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
                     SingleChildScrollView(
                       controller: _scrollController,
                       scrollDirection: Axis.horizontal,
-                      physics: _funFacts.isEmpty
-                          ? NeverScrollableScrollPhysics()
-                          : PageScrollPhysics(parent: ClampingScrollPhysics()),
+                      physics: _funFacts.isEmpty ? NeverScrollableScrollPhysics() : PageScrollPhysics(parent: ClampingScrollPhysics()),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -179,10 +167,7 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
                               width: MediaQuery.of(context).size.width,
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
-                                child: MatchNewsWidget(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 16),
-                                    funFacts: _funFacts),
+                                child: MatchNewsWidget(padding: EdgeInsets.symmetric(horizontal: 16), funFacts: _funFacts),
                               ),
                             ),
                           ),
@@ -211,45 +196,36 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
     return Container(
       width: _Constants.PAGE_VIEW_INDICATOR_DOT_SIDE,
       height: _Constants.PAGE_VIEW_INDICATOR_DOT_SIDE,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: isActive ? Colors.white : AppColors.lightGrey),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: isActive ? Colors.white : AppColors.lightGrey),
     );
   }
 
   void _initListeners() {
     _scrollController.addListener(() {
-      if (_scrollController.offset >
-          _scrollController.position.maxScrollExtent /
-              2) if (_currentPage != 1) {
-        if (_matchStatisticsController.expanded)
-          _matchStatisticsController.toggle();
+      if (_scrollController.offset > _scrollController.position.maxScrollExtent / 2) if (_currentPage != 1) {
+        if (_matchStatisticsController.expanded) _matchStatisticsController.toggle();
         setState(() {
           _currentPage = 1;
         });
       }
-      if (_scrollController.offset <
-          _scrollController.position.maxScrollExtent / 2) if (_currentPage != 0)
+      if (_scrollController.offset < _scrollController.position.maxScrollExtent / 2) if (_currentPage != 0)
         setState(() {
           _currentPage = 0;
         });
     });
 
     _matchCommentaryController.addListener(() {
-      if (_matchCommentaryController.expanded &&
-          _matchStatisticsController.expanded)
-        _matchStatisticsController.toggle();
+      if (_matchCommentaryController.expanded && _matchStatisticsController.expanded) _matchStatisticsController.toggle();
     });
 
     _matchStatisticsController.addListener(() {
-      if (_matchStatisticsController.expanded &&
-          _matchCommentaryController.expanded)
-        _matchCommentaryController.toggle();
+      if (_matchStatisticsController.expanded && _matchCommentaryController.expanded) _matchCommentaryController.toggle();
     });
   }
 
   NetworkClient _createNetworkClient() {
     final dio = Dio();
+    dio.interceptors.add(ErrorHandlerInterceptor());
     return NetworkClient(dio);
   }
 
