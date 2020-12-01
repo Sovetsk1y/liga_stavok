@@ -8,10 +8,11 @@ class LiveEventUiModel {
   final LiveEventType type;
   final String time;
   final TeamType teamType;
+  final teamColor;
   GoalScorer goalScorer;
   Player player;
 
-  LiveEventUiModel(this.id, this.type, this.time, this.teamType, {this.goalScorer, this.player});
+  LiveEventUiModel(this.id, this.type, this.time, this.teamType, this.teamColor, {this.goalScorer, this.player});
 }
 
 class LiveEventType extends Enum<String> {

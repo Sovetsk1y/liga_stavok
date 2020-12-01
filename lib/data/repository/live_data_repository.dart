@@ -13,6 +13,10 @@ import 'package:liga/net/network_client.dart';
 import '../../config.dart';
 
 class LiveDataRepository {
+  static const String _COLOR_HOME = 'ffffff';
+  static const String _COLOR_AWAY = '008000';
+  static const String _COLOR_DEFAULT = 'ff0000';
+
   // ignore: unused_field
   final NetworkClient _networkClient;
 
@@ -95,13 +99,30 @@ class LiveDataRepository {
     if (timelineItems != null && timelineItems.isNotEmpty) {
       List<TimelineItem> reversedItems = List.from(timelineItems.reversed);
       reversedItems.forEach((timelineItem) {
-        final model = LiveEventUiModel(
-            timelineItem.id, timelineItem.getLiveEventType(), timelineItem.matchTime.toString(), timelineItem.getTeamType(),
-            goalScorer: timelineItem.goalScorer, player: timelineItem.player);
-        eventUiModels.add(model);
-
         final LiveEventType eventType = timelineItem.getLiveEventType();
         final TeamType teamType = timelineItem.getTeamType();
+        String teamColor;
+        switch (teamType) {
+          case TeamType.home:
+            {
+              teamColor = _COLOR_HOME;
+            }
+            break;
+          case TeamType.away:
+            {
+              teamColor = _COLOR_AWAY;
+            }
+            break;
+          default:
+            {
+              teamColor = _COLOR_DEFAULT;
+            }
+        }
+
+        final model = LiveEventUiModel(
+            timelineItem.id, timelineItem.getLiveEventType(), timelineItem.matchTime.toString(), timelineItem.getTeamType(), teamColor,
+            goalScorer: timelineItem.goalScorer, player: timelineItem.player);
+        eventUiModels.add(model);
 
         if (LiveEventType.scoreChange == eventType) {
           if (TeamType.home == teamType) {
@@ -174,8 +195,8 @@ class LiveDataRepository {
     awayTeamUiModel.offSides = awayTeamOffsides;
     homeTeamUiModel.throwIns = homeTeamThrowIns;
     awayTeamUiModel.throwIns = awayTeamThrowIns;
-    homeTeamUiModel.color = 'ffffff';
-    awayTeamUiModel.color = 'ff0000';
+    homeTeamUiModel.color = _COLOR_HOME;
+    awayTeamUiModel.color = _COLOR_AWAY;
 
     List<Competitor> competitors = timelineResponse.sportEvent.competitors;
     if (competitors != null && competitors.isNotEmpty) {
