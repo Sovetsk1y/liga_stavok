@@ -132,9 +132,14 @@ class TimelineItem {
           eventType = LiveEventType.injuryReturn;
         }
         break;
-      case 'injury_time_shown':
+      case 'substitution':
         {
-          eventType = LiveEventType.injuryTimeShown;
+          eventType = LiveEventType.substitution;
+        }
+        break;
+      case 'penalty_awarded':
+        {
+          eventType = LiveEventType.penaltyAwarded;
         }
         break;
       default:

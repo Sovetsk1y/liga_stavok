@@ -32,8 +32,9 @@ class LiveEventType extends Enum<String> {
   static const shotOnTarget = const LiveEventType('Удар в створ');
   static const shotSaved = const LiveEventType('Сейв');
   static const offside = const LiveEventType('Офсайд');
-  static const injury = const LiveEventType('injury');
-  static const injuryReturn = const LiveEventType('injuryReturn');
-  static const injuryTimeShown = const LiveEventType('injuryTimeShown');
+  static const injury = const LiveEventType('Травма');
+  static const injuryReturn = const LiveEventType('Возврат травмированного игрока');
+  static const substitution = const LiveEventType('Замена');
+  static const penaltyAwarded = const LiveEventType('Назначен пенальти');
   static const unknown = const LiveEventType('');
 }
