@@ -1,4 +1,5 @@
 import 'package:liga/data/model/match_fun_facts.dart';
+import 'package:liga/data/model/results.dart';
 import 'package:liga/data/model/team_results.dart';
 import 'package:liga/net/network_client.dart';
 
@@ -11,7 +12,6 @@ class StaticDataRepository {
   static const String _MATCH_STATUS_CLOSED = 'closed';
   static const String _QUALIFIER_HOME = 'home';
   static const String _QUALIFIER_AWAY = 'away';
-  static const String _COMPETITOR_ID_PREFIX = 'sr:competitor:';
 
   final NetworkClient _networkClient;
   final Config _config;
@@ -28,16 +28,16 @@ class StaticDataRepository {
 
   Future<List<MatchResult>> getLastMatchesResults(String competitorId) async {
     String apiKey = await _config.getApiKey();
-    TeamResults teamResults = await _networkClient.getTeamResults(competitorId, apiKey);
+    TeamResultsResponse teamResults = await _networkClient.getTeamResults(competitorId, apiKey);
     List<Result> lastFiveFinishedMatches = _getQuantityLastFinishedMatches(teamResults.results, _QUANTITY_LAST_MATCHES);
-    return _mapResponseToMatchesResults(lastFiveFinishedMatches, _COMPETITOR_ID_PREFIX + competitorId);
+    return _mapResponseToMatchesResults(lastFiveFinishedMatches, competitorId);
   }
 
   Future<int> getIndividualTotalForLastMatches(String competitorId) async {
     String apiKey = await _config.getApiKey();
-    TeamResults teamResults = await _networkClient.getTeamResults(competitorId, apiKey);
+    TeamResultsResponse teamResults = await _networkClient.getTeamResults(competitorId, apiKey);
     List<Result> lastFiveFinishedMatches = _getQuantityLastFinishedMatches(teamResults.results, _QUANTITY_LAST_MATCHES);
-    return _getIndividualTotalFor(lastFiveFinishedMatches, _COMPETITOR_ID_PREFIX + competitorId);
+    return _getIndividualTotalFor(lastFiveFinishedMatches, competitorId);
   }
 
   Future<List<String>> getMatchFunFacts(String matchId, int factsNumber) async {

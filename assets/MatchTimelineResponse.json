@@ -1,0 +1,1214 @@
+{
+  "generated_at": "2020-11-30T18:15:07+00:00",
+  "schema": "http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/match_timeline.json",
+  "sport_event": {
+    "id": "sr:match:23390741",
+    "scheduled": "2020-11-30T17:30:00+00:00",
+    "start_time_tbd": false,
+    "tournament_round": {
+      "type": "group",
+      "number": 9,
+      "phase": "regular season"
+    },
+    "season": {
+      "id": "sr:season:77547",
+      "name": "Serie A 20\/21",
+      "start_date": "2020-09-19",
+      "end_date": "2021-05-23",
+      "year": "20\/21",
+      "tournament_id": "sr:tournament:23"
+    },
+    "tournament": {
+      "id": "sr:tournament:23",
+      "name": "Serie A",
+      "sport": {
+        "id": "sr:sport:1",
+        "name": "Soccer"
+      },
+      "category": {
+        "id": "sr:category:31",
+        "name": "Italy",
+        "country_code": "ITA"
+      }
+    },
+    "competitors": [
+      {
+        "id": "sr:competitor:2696",
+        "name": "Torino FC",
+        "country": "Italy",
+        "country_code": "ITA",
+        "abbreviation": "TOR",
+        "qualifier": "home"
+      },
+      {
+        "id": "sr:competitor:2711",
+        "name": "Sampdoria Genoa",
+        "country": "Italy",
+        "country_code": "ITA",
+        "abbreviation": "SAM",
+        "qualifier": "away"
+      }
+    ],
+    "venue": {
+      "id": "sr:venue:879",
+      "name": "Stadio Olimpico Grande Torino",
+      "capacity": 27994,
+      "city_name": "Turin",
+      "country_name": "Italy",
+      "map_coordinates": "45.041750,7.650014",
+      "country_code": "ITA"
+    }
+  },
+  "sport_event_conditions": {
+    "referee": {
+      "id": "sr:referee:79484",
+      "name": "Doveri, Daniele",
+      "nationality": "Italy",
+      "country_code": "ITA"
+    },
+    "referee_assistants": [
+      {
+        "type": "first_assistant_referee",
+        "id": "sr:referee:576222",
+        "name": "Paganessi, Giacomo",
+        "nationality": "Italy",
+        "country_code": "ITA"
+      },
+      {
+        "type": "second_assistant_referee",
+        "id": "sr:referee:1692021",
+        "name": "Raspollini, Edoardo",
+        "nationality": "Italy",
+        "country_code": "ITA"
+      },
+      {
+        "type": "fourth_official",
+        "id": "sr:referee:757674",
+        "name": "Rapuano, Antonio",
+        "nationality": "Italy",
+        "country_code": "ITA"
+      },
+      {
+        "type": "video_assistant_referee",
+        "id": "sr:referee:79479",
+        "name": "Nasca, Luigi",
+        "nationality": "Italy",
+        "country_code": "ITA"
+      }
+    ],
+    "venue": {
+      "id": "sr:venue:879",
+      "name": "Stadio Olimpico Grande Torino",
+      "capacity": 27994,
+      "city_name": "Turin",
+      "country_name": "Italy",
+      "map_coordinates": "45.041750,7.650014",
+      "country_code": "ITA"
+    }
+  },
+  "sport_event_status": {
+    "status": "live",
+    "match_status": "1st_half",
+    "home_score": 1,
+    "away_score": 0,
+    "period": 1,
+    "clock": {
+      "match_time": "40:03"
+    },
+    "period_scores": [
+      {
+        "home_score": 1,
+        "away_score": 0,
+        "type": "regular_period",
+        "number": 1
+      }
+    ],
+    "ball_locations": [
+      {
+        "x": "35",
+        "y": "59",
+        "team": "away"
+      },
+      {
+        "x": "63",
+        "y": "82",
+        "team": "away"
+      },
+      {
+        "x": "62",
+        "y": "51",
+        "team": "away"
+      },
+      {
+        "x": "42",
+        "y": "72",
+        "team": "away"
+      }
+    ]
+  },
+  "coverage_info": {
+    "level": "gold",
+    "live_coverage": true,
+    "coverage": {
+      "basic_score": true,
+      "key_events": true,
+      "detailed_events": true,
+      "lineups": true,
+      "commentary": true
+    }
+  },
+  "timeline": [
+    {
+      "id": 792128922,
+      "type": "match_started",
+      "time": "2020-11-30T17:35:05+00:00",
+      "commentaries": [
+        {
+          "text": "Today's referee, Daniele Doveri, has blown to start the match."
+        }
+      ]
+    },
+    {
+      "id": 792128920,
+      "type": "period_start",
+      "time": "2020-11-30T17:35:05+00:00",
+      "period": 1,
+      "period_type": "regular_period",
+      "period_name": "1st half"
+    },
+    {
+      "id": 792129036,
+      "type": "throw_in",
+      "time": "2020-11-30T17:35:18+00:00",
+      "commentaries": [
+        {
+          "text": "Sampdoria Genoa awarded a throw-in in their own half."
+        }
+      ],
+      "match_time": 1,
+      "match_clock": "0:12",
+      "team": "away",
+      "x": 71,
+      "y": 97,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792129746,
+      "type": "throw_in",
+      "time": "2020-11-30T17:36:38+00:00",
+      "commentaries": [
+        {
+          "text": "Sampdoria Genoa needs to be cautious. Torino FC have an attacking throw-in."
+        }
+      ],
+      "match_time": 2,
+      "match_clock": "1:33",
+      "team": "home",
+      "x": 90,
+      "y": 97,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792129842,
+      "type": "throw_in",
+      "time": "2020-11-30T17:36:51+00:00",
+      "commentaries": [
+        {
+          "text": "Torino FC have a dangerous throw-in."
+        }
+      ],
+      "match_time": 2,
+      "match_clock": "1:46",
+      "team": "home",
+      "x": 85,
+      "y": 98,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792130132,
+      "type": "throw_in",
+      "time": "2020-11-30T17:37:25+00:00",
+      "commentaries": [
+        {
+          "text": "Throw-in Sampdoria Genoa."
+        }
+      ],
+      "match_time": 3,
+      "match_clock": "2:20",
+      "team": "away",
+      "x": 69,
+      "y": 96,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792130386,
+      "type": "throw_in",
+      "time": "2020-11-30T17:38:01+00:00",
+      "commentaries": [
+        {
+          "text": "Throw-in for Torino FC in their own half."
+        }
+      ],
+      "match_time": 3,
+      "match_clock": "2:56",
+      "team": "home",
+      "x": 31,
+      "y": 3,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792131086,
+      "type": "goal_kick",
+      "time": "2020-11-30T17:39:23+00:00",
+      "commentaries": [
+        {
+          "text": "It's a goal kick for the home team in Turin."
+        }
+      ],
+      "match_time": 5,
+      "match_clock": "4:18",
+      "team": "home",
+      "x": 5,
+      "y": 50,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792131386,
+      "type": "free_kick",
+      "time": "2020-11-30T17:40:08+00:00",
+      "commentaries": [
+        {
+          "text": "Daniele Doveri signals a free kick to Sampdoria Genoa in their own half."
+        }
+      ],
+      "match_time": 6,
+      "match_clock": "5:02",
+      "team": "away",
+      "x": 79,
+      "y": 62,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792132364,
+      "type": "video_assistant_referee",
+      "time": "2020-11-30T17:42:22+00:00",
+      "match_time": 8,
+      "match_clock": "7:16",
+      "period": 1,
+      "period_type": "regular_period",
+      "description": "goal",
+      "team": "home"
+    },
+    {
+      "id": 792132376,
+      "type": "video_assistant_referee_over",
+      "time": "2020-11-30T17:42:24+00:00",
+      "match_time": 8,
+      "match_clock": "7:19",
+      "period": 1,
+      "period_type": "regular_period",
+      "description": "call_overturned",
+      "outcome": "no_goal",
+      "team": "home"
+    },
+    {
+      "id": 792132592,
+      "type": "offside",
+      "time": "2020-11-30T17:42:54+00:00",
+      "commentaries": [
+        {
+          "text": "Torino FC's Andrea Belotti is whistled for offside at Stadio Olimpico Grande Torino."
+        }
+      ],
+      "match_time": 8,
+      "match_clock": "7:50",
+      "player": {
+        "id": "sr:player:220223",
+        "name": "Belotti, Andrea"
+      },
+      "team": "home",
+      "x": 87,
+      "y": 52,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792132740,
+      "type": "free_kick",
+      "time": "2020-11-30T17:43:15+00:00",
+      "commentaries": [
+        {
+          "text": "Free kick Sampdoria Genoa."
+        }
+      ],
+      "match_time": 9,
+      "match_clock": "8:10",
+      "team": "away",
+      "x": 32,
+      "y": 77,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792133206,
+      "type": "throw_in",
+      "time": "2020-11-30T17:44:28+00:00",
+      "commentaries": [
+        {
+          "text": "Daniele Doveri awards the away team a throw-in."
+        }
+      ],
+      "match_time": 10,
+      "match_clock": "9:23",
+      "team": "away",
+      "x": 84,
+      "y": 98,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792133388,
+      "type": "free_kick",
+      "time": "2020-11-30T17:44:55+00:00",
+      "commentaries": [
+        {
+          "text": "In Turin a free kick has been awarded the home team."
+        }
+      ],
+      "match_time": 10,
+      "match_clock": "9:50",
+      "team": "home",
+      "x": 61,
+      "y": 60,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792134126,
+      "type": "free_kick",
+      "time": "2020-11-30T17:46:16+00:00",
+      "commentaries": [
+        {
+          "text": "Sampdoria Genoa awarded a free kick in their own half."
+        }
+      ],
+      "match_time": 12,
+      "match_clock": "11:10",
+      "team": "away",
+      "x": 94,
+      "y": 37,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792134990,
+      "type": "free_kick",
+      "time": "2020-11-30T17:48:16+00:00",
+      "commentaries": [
+        {
+          "text": "Daniele Doveri signals a free kick to Sampdoria Genoa."
+        }
+      ],
+      "match_time": 14,
+      "match_clock": "13:11",
+      "team": "away",
+      "x": 48,
+      "y": 73,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792135204,
+      "type": "throw_in",
+      "time": "2020-11-30T17:48:53+00:00",
+      "commentaries": [
+        {
+          "text": "Throw-in for Sampdoria Genoa at Stadio Olimpico Grande Torino."
+        }
+      ],
+      "match_time": 14,
+      "match_clock": "13:48",
+      "team": "away",
+      "x": 88,
+      "y": 2,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792135482,
+      "type": "free_kick",
+      "time": "2020-11-30T17:49:33+00:00",
+      "commentaries": [
+        {
+          "text": "Free kick for Sampdoria Genoa in their own half."
+        }
+      ],
+      "match_time": 15,
+      "match_clock": "14:28",
+      "team": "away",
+      "x": 62,
+      "y": 29,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792135832,
+      "type": "offside",
+      "time": "2020-11-30T17:50:20+00:00",
+      "commentaries": [
+        {
+          "text": "Sampdoria Genoa are whistled for offside."
+        }
+      ],
+      "match_time": 16,
+      "match_clock": "15:15",
+      "player": {
+        "id": "sr:player:11621",
+        "name": "Quagliarella, Fabio"
+      },
+      "team": "away",
+      "x": 17,
+      "y": 71,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792136328,
+      "type": "goal_kick",
+      "time": "2020-11-30T17:51:24+00:00",
+      "commentaries": [
+        {
+          "text": "Daniele Doveri awards Sampdoria Genoa a goal kick."
+        }
+      ],
+      "match_time": 17,
+      "match_clock": "16:18",
+      "team": "away",
+      "x": 95,
+      "y": 50,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792136814,
+      "type": "free_kick",
+      "time": "2020-11-30T17:52:11+00:00",
+      "commentaries": [
+        {
+          "text": "Sampdoria Genoa awarded a free kick in their own half."
+        }
+      ],
+      "match_time": 18,
+      "match_clock": "17:06",
+      "team": "away",
+      "x": 66,
+      "y": 27,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792137604,
+      "type": "throw_in",
+      "time": "2020-11-30T17:54:04+00:00",
+      "commentaries": [
+        {
+          "text": "Ball safe as Sampdoria Genoa is awarded a throw-in in their half."
+        }
+      ],
+      "match_time": 19,
+      "match_clock": "18:59",
+      "team": "away",
+      "x": 57,
+      "y": 3,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792138482,
+      "type": "corner_kick",
+      "time": "2020-11-30T17:55:42+00:00",
+      "commentaries": [
+        {
+          "text": "Corner awarded to Torino FC."
+        }
+      ],
+      "match_time": 21,
+      "match_clock": "20:37",
+      "player": {
+        "id": "sr:player:189135",
+        "name": "Linetty, Karol"
+      },
+      "team": "home",
+      "x": 95,
+      "y": 5,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792138742,
+      "type": "throw_in",
+      "time": "2020-11-30T17:56:25+00:00",
+      "commentaries": [
+        {
+          "text": "Throw-in for Torino FC at Stadio Olimpico Grande Torino."
+        }
+      ],
+      "match_time": 22,
+      "match_clock": "21:20",
+      "team": "home",
+      "x": 19,
+      "y": 3,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792139008,
+      "type": "free_kick",
+      "time": "2020-11-30T17:57:09+00:00",
+      "commentaries": [
+        {
+          "text": "Daniele Doveri signals a free kick to Sampdoria Genoa in their own half."
+        }
+      ],
+      "match_time": 23,
+      "match_clock": "22:05",
+      "team": "away",
+      "x": 62,
+      "y": 75,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792139282,
+      "type": "free_kick",
+      "time": "2020-11-30T17:58:02+00:00",
+      "commentaries": [
+        {
+          "text": "Free kick for Torino FC in their own half."
+        }
+      ],
+      "match_time": 23,
+      "match_clock": "22:57",
+      "team": "home",
+      "x": 21,
+      "y": 72,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792139788,
+      "type": "score_change",
+      "time": "2020-11-30T17:59:24+00:00",
+      "commentaries": [
+        {
+          "text": "Goal! Torino FC have got their heads in front thanks to a Andrea Belotti strike."
+        },
+        {
+          "text": "Wilfried Stephane Singo with an assist there."
+        }
+      ],
+      "match_time": 25,
+      "match_clock": "24:15",
+      "team": "home",
+      "x": 94,
+      "y": 42,
+      "period": 1,
+      "period_type": "regular_period",
+      "home_score": 1,
+      "away_score": 0,
+      "goal_scorer": {
+        "id": "sr:player:220223",
+        "name": "Belotti, Andrea"
+      },
+      "assist": {
+        "id": "sr:player:1712423",
+        "type": "primary",
+        "name": "Singo, Wilfried Stephane"
+      }
+    },
+    {
+      "id": 792141058,
+      "type": "free_kick",
+      "time": "2020-11-30T18:01:42+00:00",
+      "commentaries": [
+        {
+          "text": "Daniele Doveri signals a free kick to Torino FC in their own half."
+        }
+      ],
+      "match_time": 27,
+      "match_clock": "26:37",
+      "team": "home",
+      "x": 28,
+      "y": 76,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792141536,
+      "type": "throw_in",
+      "time": "2020-11-30T18:02:48+00:00",
+      "commentaries": [
+        {
+          "text": "Daniele Doveri awards the away team a throw-in."
+        }
+      ],
+      "match_time": 28,
+      "match_clock": "27:43",
+      "team": "away",
+      "x": 81,
+      "y": 2,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792142220,
+      "type": "throw_in",
+      "time": "2020-11-30T18:04:18+00:00",
+      "commentaries": [
+        {
+          "text": "Can Sampdoria Genoa get the ball into an attacking position from this throw-in in Torino FC's half?"
+        }
+      ],
+      "match_time": 30,
+      "match_clock": "29:14",
+      "team": "away",
+      "x": 32,
+      "y": 97,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792142298,
+      "type": "injury",
+      "time": "2020-11-30T18:04:28+00:00",
+      "commentaries": [
+        {
+          "text": "Play has been temporarily suspended for attention to Tomas Rincon for Torino FC who is writhing in pain on the pitch."
+        }
+      ],
+      "match_time": 30,
+      "match_clock": "29:23",
+      "player": {
+        "id": "sr:player:46798",
+        "name": "Rincon, Tomas"
+      },
+      "team": "home",
+      "x": 32,
+      "y": 97,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792142648,
+      "type": "injury_return",
+      "time": "2020-11-30T18:05:14+00:00",
+      "commentaries": [
+        {
+          "text": "Tomas Rincon is back on the pitch."
+        }
+      ],
+      "match_time": 31,
+      "match_clock": "30:09",
+      "player": {
+        "id": "sr:player:46798",
+        "name": "Rincon, Tomas"
+      },
+      "team": "home",
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792143004,
+      "type": "free_kick",
+      "time": "2020-11-30T18:06:03+00:00",
+      "commentaries": [
+        {
+          "text": "Free kick for Torino FC in the half of Sampdoria Genoa."
+        }
+      ],
+      "match_time": 31,
+      "match_clock": "30:58",
+      "team": "home",
+      "x": 64,
+      "y": 66,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792143264,
+      "type": "throw_in",
+      "time": "2020-11-30T18:06:32+00:00",
+      "commentaries": [
+        {
+          "text": "Throw-in for Torino FC in the half of Sampdoria Genoa."
+        }
+      ],
+      "match_time": 32,
+      "match_clock": "31:27",
+      "team": "home",
+      "x": 66,
+      "y": 3,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792143548,
+      "type": "throw_in",
+      "time": "2020-11-30T18:06:57+00:00",
+      "commentaries": [
+        {
+          "text": "Torino FC awarded a throw-in in their own half."
+        }
+      ],
+      "match_time": 32,
+      "match_clock": "31:52",
+      "team": "home",
+      "x": 33,
+      "y": 97,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792144294,
+      "type": "offside",
+      "time": "2020-11-30T18:08:16+00:00",
+      "commentaries": [
+        {
+          "text": "In Turin Torino FC's Wilfried Stephane Singo is caught offside."
+        }
+      ],
+      "match_time": 34,
+      "match_clock": "33:11",
+      "player": {
+        "id": "sr:player:1712423",
+        "name": "Singo, Wilfried Stephane"
+      },
+      "team": "home",
+      "x": 83,
+      "y": 69,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792144792,
+      "type": "free_kick",
+      "time": "2020-11-30T18:09:15+00:00",
+      "commentaries": [
+        {
+          "text": "Free kick for Sampdoria Genoa in the half of Torino FC."
+        }
+      ],
+      "match_time": 35,
+      "match_clock": "34:10",
+      "team": "away",
+      "x": 22,
+      "y": 44,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792145162,
+      "type": "goal_kick",
+      "time": "2020-11-30T18:10:07+00:00",
+      "commentaries": [
+        {
+          "text": "Torino FC have a goal kick."
+        }
+      ],
+      "match_time": 36,
+      "match_clock": "35:03",
+      "team": "home",
+      "x": 5,
+      "y": 50,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792145862,
+      "type": "shot_off_target",
+      "time": "2020-11-30T18:11:29+00:00",
+      "commentaries": [
+        {
+          "text": "In Turin Sampdoria Genoa attack through Fabio Quagliarella. The finish is off target, however."
+        }
+      ],
+      "match_time": 37,
+      "match_clock": "36:24",
+      "player": {
+        "id": "sr:player:11621",
+        "name": "Quagliarella, Fabio"
+      },
+      "team": "away",
+      "x": 5,
+      "y": 63,
+      "period": 1,
+      "period_type": "regular_period",
+      "outcome": "miss"
+    },
+    {
+      "id": 792145866,
+      "type": "goal_kick",
+      "time": "2020-11-30T18:11:29+00:00",
+      "commentaries": [
+        {
+          "text": "Goal kick for Torino FC at Stadio Olimpico Grande Torino."
+        }
+      ],
+      "match_time": 37,
+      "match_clock": "36:24",
+      "team": "home",
+      "x": 5,
+      "y": 50,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792146502,
+      "type": "throw_in",
+      "time": "2020-11-30T18:12:51+00:00",
+      "commentaries": [
+        {
+          "text": "Ball safe as Torino FC is awarded a throw-in in their half."
+        }
+      ],
+      "match_time": 38,
+      "match_clock": "37:46",
+      "team": "home",
+      "x": 24,
+      "y": 2,
+      "period": 1,
+      "period_type": "regular_period"
+    },
+    {
+      "id": 792147440,
+      "type": "corner_kick",
+      "time": "2020-11-30T18:14:42+00:00",
+      "commentaries": [
+        {
+          "text": "Sampdoria Genoa have been awarded a corner by Daniele Doveri."
+        }
+      ],
+      "match_time": 40,
+      "match_clock": "39:37",
+      "player": {
+        "id": "sr:player:569556",
+        "name": "Jankto, Jakub"
+      },
+      "team": "away",
+      "x": 5,
+      "y": 90,
+      "period": 1,
+      "period_type": "regular_period"
+    }
+  ],
+  "statistics": {
+    "teams": [
+      {
+        "id": "sr:competitor:2711",
+        "name": "Sampdoria Genoa",
+        "abbreviation": "SAM",
+        "qualifier": "away",
+        "statistics": {
+          "throw_ins": 7,
+          "free_kicks": 10,
+          "fouls": 4,
+          "offsides": 1,
+          "goal_kicks": 1,
+          "ball_possession": 45
+        },
+        "players": [
+          {
+            "id": "sr:player:318603",
+            "name": "Audero, Emil",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:109461",
+            "name": "Bereszynski, Bartosz",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:24248",
+            "name": "Yoshida, Maya",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:327429",
+            "name": "Ferrari, Alex",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:596736",
+            "name": "Augello, Tommaso",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:27982",
+            "name": "Candreva, Antonio",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:21992",
+            "name": "Ekdal, Albin",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:280991",
+            "name": "Thorsby, Morten",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:569556",
+            "name": "Jankto, Jakub",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:139267",
+            "name": "Verre, Valerio",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:11621",
+            "name": "Quagliarella, Fabio",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          }
+        ]
+      },
+      {
+        "id": "sr:competitor:2696",
+        "name": "Torino FC",
+        "abbreviation": "TOR",
+        "qualifier": "home",
+        "statistics": {
+          "throw_ins": 7,
+          "goal_kicks": 3,
+          "fouls": 8,
+          "shots_on_target": 1,
+          "offsides": 2,
+          "free_kicks": 5,
+          "corner_kicks": 1,
+          "ball_possession": 55,
+          "injuries": 1
+        },
+        "players": [
+          {
+            "id": "sr:player:18954",
+            "name": "Sirigu, Salvatore",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:919912",
+            "name": "Bremer",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:854446",
+            "name": "Lyanco",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:67769",
+            "name": "Rodriguez, Ricardo",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:1712423",
+            "name": "Singo, Wilfried Stephane",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 1,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:139229",
+            "name": "Meite, Soualiho",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:189135",
+            "name": "Linetty, Karol",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:46798",
+            "name": "Rincon, Tomas",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:43476",
+            "name": "Ansaldi, Cristian",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:220223",
+            "name": "Belotti, Andrea",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 1,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          },
+          {
+            "id": "sr:player:48077",
+            "name": "Zaza, Simone",
+            "substituted_in": 0,
+            "substituted_out": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "own_goals": 0,
+            "yellow_cards": 0,
+            "yellow_red_cards": 0,
+            "red_cards": 0
+          }
+        ]
+      }
+    ]
+  }
+}
