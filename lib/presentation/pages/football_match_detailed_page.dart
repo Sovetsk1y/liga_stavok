@@ -51,7 +51,8 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
           StaticDataRepository(_createNetworkClient(), _createConfig()),
           LiveDataRepository(_createNetworkClient(), _createConfig()),
           _createLog())
-        ..add(LoadIndividualTotal()),
+        ..add(LoadIndividualTotal())
+        ..add(UpdateLiveData()),
       child: BlocBuilder<SportWidgetBloc, SportWidgetState>(
           builder: (context, state) {
         return Scaffold(

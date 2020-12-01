@@ -31,7 +31,8 @@ class MatchCommentaryTile extends StatelessWidget {
                 _buildMatchCommentaryTeamIndicator(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text('${liveEvent.time}‘',
+                  child: Text(
+                      '${liveEvent.time == 'null' ? 0 : liveEvent.time}‘',
                       style: Theme.of(context).textTheme.headline2),
                 ),
                 _eventIcon(),
@@ -91,7 +92,7 @@ class MatchCommentaryTile extends StatelessWidget {
         height: _Constants.TEAM_INDICATOR_HEIGHT,
         width: 7,
         decoration: BoxDecoration(
-            color: Colors.purple,
+            color: liveEvent.fds,
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20))),
