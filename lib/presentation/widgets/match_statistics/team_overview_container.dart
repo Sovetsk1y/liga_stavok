@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:liga/data/model/team_results.dart';
+import 'package:liga/data/model/results.dart';
 import 'package:liga/utils/constants.dart';
 
 import 'match_result_thumbnail.dart';

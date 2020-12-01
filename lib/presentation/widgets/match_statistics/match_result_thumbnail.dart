@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:liga/data/model/team_results.dart';
+import 'package:liga/data/model/results.dart';
 import 'package:liga/utils/app_colors.dart';
 
 class _Constants {
