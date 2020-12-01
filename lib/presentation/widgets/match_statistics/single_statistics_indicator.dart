@@ -67,6 +67,7 @@ class SingleStatisticsIndicator extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             icon ?? Container(),
+            SizedBox(width: 4),
             Text(title,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline1)

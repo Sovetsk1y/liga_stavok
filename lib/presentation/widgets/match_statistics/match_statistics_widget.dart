@@ -1,17 +1,29 @@
+import 'dart:math';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:liga/data/model/results.dart';
 import 'package:liga/presentation/widgets/match_statistics/single_statistics_indicator.dart';
 import 'package:liga/presentation/widgets/match_statistics/team_overview_container.dart';
 import 'package:liga/utils/app_icons.dart';
 import 'package:liga/utils/constants.dart';
 
+class _Constants {
+  static const STATISTIC_INDICATORS_COLLAPSED_LENGTH = 3;
+}
+
 class MatchStatisticsWidget extends StatefulWidget {
   final EdgeInsetsGeometry padding;
   final ExpandableController controller;
   final VoidCallback onShowOnboarding;
+  final List<Result> results;
 
   MatchStatisticsWidget(
-      {Key key, this.padding, this.controller, this.onShowOnboarding})
+      {Key key,
+      this.padding,
+      this.controller,
+      this.onShowOnboarding,
+      this.results = const []})
       : super(key: key);
 
   @override
@@ -23,11 +35,17 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
 
   ExpandableController _expandableController;
 
+  List _children;
+
   @override
   void initState() {
     super.initState();
 
     _expandableController = widget.controller ?? ExpandableController();
+    _children = List.generate(
+        10,
+        (index) => SingleStatisticsIndicator(
+            homeValue: 12, awayValue: 7, title: 'Угловые'));
   }
 
   @override
@@ -44,9 +62,6 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildCollapsed(context, isExpanded: true),
-                Container(
-                  height: 200,
-                ),
                 ExpandableButton(child: AppIcons.arrowUp)
               ],
             ),
@@ -81,14 +96,19 @@ class _MatchStatisticsWidgetState extends State<MatchStatisticsWidget> {
           ],
         ),
         SizedBox(height: 12),
-        SingleStatisticsIndicator(homeValue: 3, awayValue: 2, title: 'Угловые'),
-        SizedBox(height: 8),
-        SingleStatisticsIndicator(
-            homeValue: 1, awayValue: 3, title: 'Желтые карточки'),
-        SizedBox(height: 8),
-        SingleStatisticsIndicator(
-            homeValue: 0, awayValue: 11, title: 'Красные карточки'),
-        SizedBox(height: 8),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          itemCount: isExpanded
+              ? _children.length
+              : _Constants.STATISTIC_INDICATORS_COLLAPSED_LENGTH,
+          itemBuilder: (context, index) => Draggable(
+            data: _children[index],
+            feedback: _children[index],
+            childWhenDragging: _children[index],
+            child: _children[index],
+          ),
+        ),
         Visibility(
           visible: !isExpanded && _isFirstExpansion,
           child: GestureDetector(

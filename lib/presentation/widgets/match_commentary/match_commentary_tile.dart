@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:liga/data/model/live_event_ui_model.dart';
 import 'package:liga/data/model/team_ui_model.dart';
 import 'package:liga/utils/app_colors.dart';
+import 'package:liga/utils/constants.dart';
 
 class _Constants {
   static const double TEAM_INDICATOR_HEIGHT = 40;
@@ -9,7 +10,6 @@ class _Constants {
   static const String GOAL_IMAGE = 'assets/images/goal.png';
   static const String YELLOW_CARD_IMAGE = 'assets/images/yellow_card.png';
   static const String RED_CARD_IMAGE = 'assets/images/red_card.png';
-  static const String CORNER_IMAGE = 'assets/images/corner.png';
 }
 
 class MatchCommentaryTile extends StatelessWidget {
@@ -67,6 +67,13 @@ class MatchCommentaryTile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4)),
                   ),
                 ),
+                // Visibility(
+                //   visible: liveEvent.type == LiveEventType.videoAssistantRefereeOver,
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(horizontal: 8),
+                //     child: Text(liveEvent.outcome),
+                //   ),
+                // ),
                 Visibility(
                   visible: liveEvent.type != LiveEventType.injuryReturn,
                   child: Expanded(
@@ -100,7 +107,7 @@ class MatchCommentaryTile extends StatelessWidget {
         iconPath = _Constants.RED_CARD_IMAGE;
         break;
       case LiveEventType.cornerKick:
-        iconPath = _Constants.CORNER_IMAGE;
+        iconPath = Constants.CORNER_IMAGE;
     }
     return iconPath == null
         ? Container()
