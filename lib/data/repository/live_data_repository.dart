@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:liga/data/model/live_event_ui_model.dart';
+
 // ignore: unused_import
 import 'package:liga/data/model/live_results.dart';
 import 'package:liga/data/model/live_widget_ui_model.dart';
@@ -19,6 +20,9 @@ class LiveDataRepository {
 
   static LiveDataRepository _instance;
 
+  MatchTimelineResponse _timelineResponse;
+  int _timelineItemsIndex = 0;
+
   factory LiveDataRepository(networkClient, config) {
     return _instance ?? LiveDataRepository._internal(networkClient, config);
   }
@@ -28,14 +32,37 @@ class LiveDataRepository {
   }
 
   Future<LiveWidgetUiModel> getLiveData() async {
-    // uncomment this block when want going to use backend
+    // uncomment this block and remove response json when want going to use backend
     /*String apiKey = await _config.getApiKey();
     LiveResultsResponse response = await _networkClient.getLiveResults(apiKey);
     String matchId = response.results.first.sportEvent.id;
     MatchTimelineResponse timelineResponse = await _networkClient.getMatchTimeLine(matchId, apiKey);*/
     MatchTimelineResponse timelineResponse = await _getMatchTimeLineResponseFromAssets();
-    List<LiveEventUiModel> liveEventModels = _mapToLiveEventUiModels(timelineResponse.timeline);
+    List<TimelineItem> timelineItems = _getTimelineItems(timelineResponse.timeline);
+    List<LiveEventUiModel> liveEventModels = _mapToLiveEventUiModels(timelineItems);
     return LiveWidgetUiModel(liveEventModels);
+  }
+
+  Future<MatchTimelineResponse> _getMatchTimeLineResponseFromAssets() async {
+    if (_timelineResponse == null) {
+      final String content = await rootBundle.loadString('assets/MatchTimelineResponse.json');
+      final json = jsonDecode(content);
+      _timelineResponse = MatchTimelineResponse.fromJson(json);
+    }
+    return _timelineResponse;
+  }
+
+  List<TimelineItem> _getTimelineItems(List<TimelineItem> timelineItems) {
+    List<TimelineItem> result = List<TimelineItem>();
+    if (_timelineItemsIndex <= timelineItems.length - 1) {
+      for (int i = 0; i <= _timelineItemsIndex; i++) {
+        result.add(timelineItems[i]);
+      }
+      _timelineItemsIndex++;
+    } else {
+      result.addAll(timelineItems);
+    }
+    return result;
   }
 
   List<LiveEventUiModel> _mapToLiveEventUiModels(List<TimelineItem> timelineItems) {
@@ -49,11 +76,5 @@ class LiveDataRepository {
       });
     }
     return eventUiModels;
-  }
-
-  Future<MatchTimelineResponse> _getMatchTimeLineResponseFromAssets() async {
-    final String content = await rootBundle.loadString('assets/MatchTimelineResponse.json');
-    final json = jsonDecode(content);
-    return MatchTimelineResponse.fromJson(json);
   }
 }
