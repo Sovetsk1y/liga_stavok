@@ -37,8 +37,25 @@ class MatchCommentaryTile extends StatelessWidget {
                 _eventIcon(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(liveEvent.type.value,
-                      style: Theme.of(context).textTheme.headline3),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(liveEvent.type.value,
+                            style: Theme.of(context).textTheme.headline3),
+                      ),
+                      Visibility(
+                        visible: liveEvent.type == LiveEventType.injuryReturn,
+                        child: Text(
+                          liveEvent.type == LiveEventType.scoreChange
+                              ? liveEvent.goalScorer.name
+                              : liveEvent.player?.name?.toString() ?? '',
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Visibility(
                   visible: liveEvent.type == LiveEventType.scoreChange,
@@ -50,14 +67,17 @@ class MatchCommentaryTile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4)),
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      liveEvent.type == LiveEventType.scoreChange
-                          ? liveEvent.goalScorer.name
-                          : liveEvent.player?.name?.toString() ?? '',
-                      style: Theme.of(context).textTheme.headline1,
+                Visibility(
+                  visible: liveEvent.type != LiveEventType.injuryReturn,
+                  child: Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        liveEvent.type == LiveEventType.scoreChange
+                            ? liveEvent.goalScorer.name
+                            : liveEvent.player?.name?.toString() ?? '',
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
                     ),
                   ),
                 ),
