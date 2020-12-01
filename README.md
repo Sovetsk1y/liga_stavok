@@ -8,6 +8,7 @@ Liga stavok hackaton
   - import into IDE
   - run command in terminal:
   ```sh
+      $ flutter pub get
       $ flutter pub run build_runner build
   ```
   - install app on you device
