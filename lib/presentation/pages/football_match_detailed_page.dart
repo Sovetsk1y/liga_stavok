@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +14,8 @@ import 'package:liga/net/network_client.dart';
 import 'package:liga/presentation/widgets/match_commentary/match_commentary_widget.dart';
 import 'package:liga/presentation/widgets/match_news/match_news_widget.dart';
 import 'package:liga/presentation/widgets/match_statistics/match_statistics_widget.dart';
+import 'package:liga/presentation/widgets/match_statistics/single_statistics_indicator.dart';
+import 'package:liga/presentation/widgets/match_statistics/statistics_widget_onboarding.dart';
 import 'package:liga/utils/app_colors.dart';
 import 'package:liga/utils/app_icons.dart';
 import 'package:liga/utils/log.dart';
@@ -42,6 +46,8 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
   ExpandableController _matchStatisticsController = ExpandableController();
 
   List<String> _funFacts = [];
+
+  bool _showStatisticsOnboarding = false;
 
   @override
   void initState() {
@@ -96,90 +102,107 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
   Widget _buildBody(SportWidgetState state) {
     return SafeArea(
       top: true,
-      child: ListView(
-        physics: ClampingScrollPhysics(),
+      child: Stack(
         children: [
-          Container(
-            color: AppColors.grey,
-            padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildLiveTag(),
-                Visibility(
-                  visible: _funFacts.isNotEmpty,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildPageViewIndicatorDot(
-                          isActive:
-                              _currentPage == _Constants.PAGE_VIEW_STATISTICS),
-                      Visibility(
-                        visible: _funFacts.isNotEmpty,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 6),
-                          child: _buildPageViewIndicatorDot(
-                              isActive:
-                                  _currentPage == _Constants.PAGE_VIEW_NEWS),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                _buildExitButton()
-              ],
-            ),
-          ),
-          Container(
-            color: AppColors.grey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(bottom: 16, top: 8, left: 16, right: 16),
-                  child: MatchCommentaryWidget(
-                    controller: _matchCommentaryController,
-                  ),
-                ),
-                SingleChildScrollView(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  physics: _funFacts.isEmpty
-                      ? NeverScrollableScrollPhysics()
-                      : PageScrollPhysics(parent: ClampingScrollPhysics()),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: MatchStatisticsWidget(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            controller: _matchStatisticsController,
-                          ),
-                        ),
+          ListView(
+            physics: ClampingScrollPhysics(),
+            children: [
+              Container(
+                color: AppColors.grey,
+                padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildLiveTag(),
+                    Visibility(
+                      visible: _funFacts.isNotEmpty,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildPageViewIndicatorDot(
+                              isActive: _currentPage ==
+                                  _Constants.PAGE_VIEW_STATISTICS),
+                          Visibility(
+                            visible: _funFacts.isNotEmpty,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 6),
+                              child: _buildPageViewIndicatorDot(
+                                  isActive: _currentPage ==
+                                      _Constants.PAGE_VIEW_NEWS),
+                            ),
+                          )
+                        ],
                       ),
-                      Visibility(
-                        visible: _funFacts.isNotEmpty,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: MatchNewsWidget(
+                    ),
+                    _buildExitButton()
+                  ],
+                ),
+              ),
+              Container(
+                color: AppColors.grey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 16, top: 8, left: 16, right: 16),
+                      child: MatchCommentaryWidget(
+                        controller: _matchCommentaryController,
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      controller: _scrollController,
+                      scrollDirection: Axis.horizontal,
+                      physics: _funFacts.isEmpty
+                          ? NeverScrollableScrollPhysics()
+                          : PageScrollPhysics(parent: ClampingScrollPhysics()),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: MatchStatisticsWidget(
                                 padding: EdgeInsets.symmetric(horizontal: 16),
-                                funFacts: _funFacts),
+                                controller: _matchStatisticsController,
+                                onShowOnboarding: () {
+                                  setState(() {
+                                    _showStatisticsOnboarding = true;
+                                  });
+                                },
+                              ),
+                            ),
                           ),
-                        ),
+                          Visibility(
+                            visible: _funFacts.isNotEmpty,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: MatchNewsWidget(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                    funFacts: _funFacts),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    )
+                  ],
+                ),
+              ),
+              Image.asset(_Constants.MOCK_BACKGROUND_IMAGE)
+            ],
           ),
-          Image.asset(_Constants.MOCK_BACKGROUND_IMAGE)
+          StatisticsWidgetOnboarding(
+              visible: _showStatisticsOnboarding,
+              onShouldClose: () {
+                setState(() {
+                  _showStatisticsOnboarding = false;
+                });
+              })
         ],
       ),
     );
