@@ -7,8 +7,9 @@ import 'match_result_thumbnail.dart';
 
 class TeamOverviewContainer extends StatelessWidget {
   final Color teamColor;
+  final List<MatchResult> results;
 
-  TeamOverviewContainer({@required this.teamColor});
+  TeamOverviewContainer({@required this.teamColor, @required this.results});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -18,7 +19,10 @@ class TeamOverviewContainer extends StatelessWidget {
           SizedBox(height: 8),
           Text('FC Shakhtar', style: Theme.of(context).textTheme.headline3),
           SizedBox(height: 4),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(5, (index) => MatchResultThumbnail(MatchResult.win)))
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(results.length,
+                  (index) => MatchResultThumbnail(results[index])))
         ],
       );
 }

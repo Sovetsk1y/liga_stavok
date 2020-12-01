@@ -12,7 +12,8 @@ class LiveEventUiModel {
   GoalScorer goalScorer;
   Player player;
 
-  LiveEventUiModel(this.id, this.type, this.time, this.teamType, this.teamColor, {this.goalScorer, this.player});
+  LiveEventUiModel(this.id, this.type, this.time, this.teamType, this.teamColor,
+      {this.goalScorer, this.player});
 }
 
 class LiveEventType extends Enum<String> {
@@ -34,10 +35,11 @@ class LiveEventType extends Enum<String> {
   static const shotSaved = const LiveEventType('Сейв');
   static const offside = const LiveEventType('Офсайд');
   static const injury = const LiveEventType('Травма');
-  static const injuryReturn = const LiveEventType('Возврат травмированного игрока');
+  static const injuryReturn =
+      const LiveEventType('Возврат травмированного игрока');
   static const substitution = const LiveEventType('Замена');
   static const penaltyAwarded = const LiveEventType('Назначен пенальти');
   static const videoAssistantReferee = const LiveEventType('VAR');
-  static const videoAssistantRefereeOver = const LiveEventType('VAR Decision');
+  static const videoAssistantRefereeOver = const LiveEventType('VAR');
   static const unknown = const LiveEventType('');
 }

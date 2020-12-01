@@ -19,11 +19,14 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
   final LiveDataRepository _liveDataRepository;
   final Log _log;
 
-  final Duration _duration = Duration(seconds: _LIVE_DATA_UPDATE_DURATION_IN_SECONDS);
+  final Duration _duration =
+      Duration(seconds: _LIVE_DATA_UPDATE_DURATION_IN_SECONDS);
 
   Map<String, List<MatchResult>> teamsMatchResults = HashMap();
 
-  SportWidgetBloc(this._staticDataRepository, this._liveDataRepository, this._log) : super(Initial()) {
+  SportWidgetBloc(
+      this._staticDataRepository, this._liveDataRepository, this._log)
+      : super(Initial()) {
     Timer(_duration, _handleTimeout);
   }
 
@@ -32,10 +35,12 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
     _log.d('Receive sport widget event - $event');
     if (event is LoadIndividualTotal) {
       try {
-        int individualTotal = await _staticDataRepository.getIndividualTotalForLastMatches('sr:competitor:23992');
+        int individualTotal = await _staticDataRepository
+            .getIndividualTotalForLastMatches('sr:competitor:23992');
         _log.d('load individual total $individualTotal');
 
-        List<String> funFacts = await _staticDataRepository.getMatchFunFacts('sr:match:19173938', 3);
+        List<String> funFacts = await _staticDataRepository.getMatchFunFacts(
+            'sr:match:19173938', 3);
         _log.d('Load match fun facts $funFacts');
         yield SuccessLoadFunFacts(funFacts);
       } catch (exception) {
@@ -44,7 +49,8 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
       }
     } else if (event is UpdateLiveData) {
       try {
-        LiveWidgetUiModel uiModel = await _liveDataRepository.getMatchData('sr:match:23390741');
+        LiveWidgetUiModel uiModel =
+            await _liveDataRepository.getMatchData('sr:match:23390741');
         if (uiModel.hasErrors()) {
           if (uiModel.exceptions.first is NetworkNotAvailableException) {
             yield NetworkNotAvailable();
@@ -56,18 +62,26 @@ class SportWidgetBloc extends Bloc<SportWidgetEvent, SportWidgetState> {
           String awayTeamId = uiModel.awayTeamUiModel.id;
           yield SuccessUpdateLiveData(uiModel);
 
-          if (homeTeamId != null && homeTeamId.isNotEmpty && teamsMatchResults[homeTeamId] == null) {
-            List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(homeTeamId);
+          if (homeTeamId != null &&
+              homeTeamId.isNotEmpty &&
+              teamsMatchResults[homeTeamId] == null) {
+            List<MatchResult> matchesResults =
+                await _staticDataRepository.getLastMatchesResults(homeTeamId);
             _log.d('Load last matches results for home team $matchesResults');
             teamsMatchResults.putIfAbsent(homeTeamId, () => matchesResults);
-            yield SuccessUpdateTeamMatchStatistics(TeamType.home, matchesResults);
+            yield SuccessUpdateTeamMatchStatistics(
+                TeamType.home, matchesResults);
           }
 
-          if (awayTeamId != null && awayTeamId.isNotEmpty && teamsMatchResults[awayTeamId] == null) {
-            List<MatchResult> matchesResults = await _staticDataRepository.getLastMatchesResults(awayTeamId);
+          if (awayTeamId != null &&
+              awayTeamId.isNotEmpty &&
+              teamsMatchResults[awayTeamId] == null) {
+            List<MatchResult> matchesResults =
+                await _staticDataRepository.getLastMatchesResults(awayTeamId);
             _log.d('Load last matches results for away team $matchesResults');
             teamsMatchResults.putIfAbsent(awayTeamId, () => matchesResults);
-            yield SuccessUpdateTeamMatchStatistics(TeamType.away, matchesResults);
+            yield SuccessUpdateTeamMatchStatistics(
+                TeamType.away, matchesResults);
           }
         }
       } catch (exception) {
