@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:liga/data/model/live_event_ui_model.dart';
+import 'package:liga/data/model/team_ui_model.dart';
 import 'package:liga/utils/app_colors.dart';
 
 class _Constants {
-  //dimensions
   static const double TEAM_INDICATOR_HEIGHT = 40;
 
-  //assets
   static const String GOAL_IMAGE = 'assets/images/goal.png';
   static const String YELLOW_CARD_IMAGE = 'assets/images/yellow_card.png';
   static const String RED_CARD_IMAGE = 'assets/images/red_card.png';
@@ -92,9 +91,21 @@ class MatchCommentaryTile extends StatelessWidget {
         height: _Constants.TEAM_INDICATOR_HEIGHT,
         width: 7,
         decoration: BoxDecoration(
-            color: liveEvent.fds,
+            color: _getTeamColor(),
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20))),
       );
+
+  // ignore: missing_return
+  Color _getTeamColor() {
+    switch (liveEvent.teamType) {
+      case TeamType.home:
+        return AppColors.green;
+      case TeamType.away:
+        return Colors.white;
+      case TeamType.unknown:
+        return AppColors.lightGrey;
+    }
+  }
 }

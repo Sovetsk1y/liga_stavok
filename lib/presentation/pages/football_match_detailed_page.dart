@@ -19,8 +19,10 @@ import 'package:liga/utils/log.dart';
 import '../../config.dart';
 
 class _Constants {
-  //dimensions
   static const double PAGE_VIEW_INDICATOR_DOT_SIDE = 6;
+
+  static const String MOCK_BACKGROUND_IMAGE =
+      'assets/images/mock_background.png';
 
   //page view indexes
   static const int PAGE_VIEW_STATISTICS = 0;
@@ -177,14 +179,7 @@ class _FootballMatchDetailedPageState extends State<FootballMatchDetailedPage> {
               ],
             ),
           ),
-          Container(
-            height: 300,
-            color: Colors.white,
-            child: Center(
-              child: Text('Куча различных котировок',
-                  style: Theme.of(context).textTheme.headline2),
-            ),
-          )
+          Image.asset(_Constants.MOCK_BACKGROUND_IMAGE)
         ],
       ),
     );
